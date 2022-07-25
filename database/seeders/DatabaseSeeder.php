@@ -3,6 +3,9 @@
 namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
+use Illuminate\Database\Eloquent\Factories\Factory;
+use Illuminate\Support\Facades\Hash;
+use Carbon\Carbon;
 
 class DatabaseSeeder extends Seeder
 {
@@ -13,6 +16,13 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-        // $this->call('UsersTableSeeder');
+        \App\Models\User::factory()->state([
+            'first_name' => 'John Anthony',
+            'last_name' => 'Almario',
+            'email' => 'jadalmario.freelancer@gmail.com',
+            'password' => '@Unknown0322',
+            'status' => 'active',
+            'role' => 'admin'
+        ])->create();
     }
 }
