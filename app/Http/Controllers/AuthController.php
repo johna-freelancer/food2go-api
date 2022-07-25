@@ -31,11 +31,11 @@ class AuthController extends Controller
                     ->with(['userInformations'])
                     ->first();
         if (!$token = Auth::setTTL(env('TOKEN_EXPIRY'))->attempt($credentials)) {
-            return response()->json(['message' => 'Your account is not registered in our system. Please contact your administrator.'], 401);
+            return response()->json(['message' => 'Your account is not registered in our system. Please contact the administrator.'], 401);
         }
         
         if ($user->status != 'active') {
-            return response()->json(['message' => 'Your account is not active. Please contact your administrator.'], 401);
+            return response()->json(['message' => 'Your account is not active. Please contact the administrator.'], 401);
         }
 
         return $this->respondWithToken($token, $user);
