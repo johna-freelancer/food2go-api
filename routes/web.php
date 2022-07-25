@@ -18,4 +18,12 @@ $router->get('/', function () use ($router) {
 });
 $router->group(['prefix' => 'v1'], function () use ($router) {
     $router->post('/login', 'AuthController@login');
+
+    $router->group(['middleware' => 'auth'], function() use($router) {
+       // Auth
+        $router->group(['prefix' => 'auth'], function() use($router) {
+            $router->get('', 'AuthController@me');
+            $router->get('logout', 'AuthController@logout');
+        });
+    });
 });
