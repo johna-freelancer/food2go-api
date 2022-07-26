@@ -29,6 +29,7 @@ class AuthController extends Controller
 
         $user = User::where($email)
                     ->with(['userInformations'])
+                    ->select('id', 'first_name', 'last_name', 'email', 'status', 'role')
                     ->first();
         if (!$token = Auth::setTTL(env('TOKEN_EXPIRY'))->attempt($credentials)) {
             return response()->json(['message' => 'Your account is not registered in our system. Please contact the administrator.'], 401);
