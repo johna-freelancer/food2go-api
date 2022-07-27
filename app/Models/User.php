@@ -17,7 +17,7 @@ class User extends Model implements AuthenticatableContract, AuthorizableContrac
     use Authenticatable, Authorizable, HasFactory, SoftDeletes;
 
     public function userInformations(){
-        return $this->hasOne(UserInformations::class);
+        return $this->hasOne(UserInformation::class);
     }
     public function userShop(){
         return $this->hasOne(UserShop::class);

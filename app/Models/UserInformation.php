@@ -7,10 +7,10 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 
-class UserInformations extends Model
+class UserInformation extends Model
 {
     use HasFactory, SoftDeletes;
-    
+
     /**
      * The attributes that are mass assignable.
      *
@@ -19,11 +19,11 @@ class UserInformations extends Model
     protected $fillable = [
         'user_id', 'primary_contact', 'secondary_contact', 'complete_address'
     ];
-
+    protected $table = 'user_informations';
     public function users(){
         return $this->belongsTo(User::class, 'user_id');
     }
-  
+
     protected $hidden = [
         'pivot'
     ];

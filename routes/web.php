@@ -28,6 +28,11 @@ $router->group(['prefix' => 'v1'], function () use ($router) {
         // User
         $router->group(['prefix' => 'user'], function() use($router) {
             $router->get('getRole', 'UserController@getRole');
+            $router->get('{id}', 'UserController@get');
+            $router->post('list', 'UserController@index');
+            $router->post('', 'UserController@create');
+            $router->put('', 'UserController@update');
+            $router->delete('{id}', 'UserController@delete');
         });
     });
 });

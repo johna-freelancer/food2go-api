@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateUserShopTable extends Migration
+class CreateUserShopsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,15 +13,15 @@ class CreateUserShopTable extends Migration
      */
     public function up()
     {
-        Schema::create('user_shop', function (Blueprint $table) {
+        Schema::create('user_shops', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('user_id');
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->string('name');
             $table->string('address');
             $table->string('contact');
-            $table->timestamp('open_hour')->default(DB::raw('CURRENT_TIMESTAMP'));
-            $table->timestamp('close_hour')->default(DB::raw('CURRENT_TIMESTAMP'));
+            $table->string('open_hour')->nullable();
+            $table->string('close_hour')->nullable();
             $table->string('status')->defaut('closed');
             $table->boolean('monday')->default('1');
             $table->boolean('tuesday')->default('1');
@@ -32,6 +32,7 @@ class CreateUserShopTable extends Migration
             $table->boolean('sunday')->default('1');
             $table->boolean('pm_cod')->default('1');
             $table->boolean('pm_gcash')->default('1');
+            $table->boolean('is_active')->default('0');
             $table->softDeletes();
             $table->timestamps();
         });
@@ -44,6 +45,6 @@ class CreateUserShopTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('user_shop');
+        Schema::dropIfExists('user_shops');
     }
 }
