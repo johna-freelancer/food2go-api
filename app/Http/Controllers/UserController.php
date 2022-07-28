@@ -286,4 +286,21 @@ class UserController extends Controller
 
         return response()->json($this->response_message, 500);
     }
+
+    public function me() {
+        try {
+            $user = User::with(['userInformations', 'userShop'])->where('id', Auth::id())->first();
+
+            $this->response_message['status'] = 'success';
+            $this->response_message['message'] = 'User role retrieved.';
+            $this->response_message['result'] = $user;
+
+            return response()->json($this->response_message, 200);
+        } catch (\Exception $e) {
+            report($e);
+            $this->response_message['message'] = $e->getMessage();
+        }
+
+        return response()->json($this->response_message, 500);
+    }
 }

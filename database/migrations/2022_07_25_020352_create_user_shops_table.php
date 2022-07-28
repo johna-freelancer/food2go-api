@@ -33,6 +33,7 @@ class CreateUserShopsTable extends Migration
             $table->boolean('pm_cod')->default('1');
             $table->boolean('pm_gcash')->default('1');
             $table->boolean('is_active')->default('0');
+            $table->decimal('delivery_charge')->default(0);
             $table->softDeletes();
             $table->timestamps();
         });

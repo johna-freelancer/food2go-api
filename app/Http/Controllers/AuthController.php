@@ -34,7 +34,7 @@ class AuthController extends Controller
         if (!$token = Auth::setTTL(env('TOKEN_EXPIRY'))->attempt($credentials)) {
             return response()->json(['message' => 'Your account is not registered in our system. Please contact the administrator.'], 401);
         }
-        
+
         if ($user->status != 'active') {
             return response()->json(['message' => 'Your account is not active. Please contact the administrator.'], 401);
         }
@@ -62,7 +62,7 @@ class AuthController extends Controller
     {
         auth()->logout();
 
-        return response()->json(['message' => 'Successfully logged out']);
+        return response()->json(['message' => 'Logout successfully!']);
     }
 
 }
