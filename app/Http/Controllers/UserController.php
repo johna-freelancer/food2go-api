@@ -9,7 +9,7 @@ use App\Models\UserShop;
 use Illuminate\Support\Facades\Auth;
 use Laravel\Lumen\Routing\Controller as BaseController;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Validation\ValidationException;
 
 class UserController extends Controller
@@ -275,7 +275,7 @@ class UserController extends Controller
             $user = User::with(['userInformations', 'userShop'])->where('id', $id)->first();
 
             $this->response_message['status'] = 'success';
-            $this->response_message['message'] = 'User role retrieved.';
+            $this->response_message['message'] = 'User retrieved.';
             $this->response_message['result'] = $user;
 
             return response()->json($this->response_message, 200);
@@ -292,7 +292,7 @@ class UserController extends Controller
             $user = User::with(['userInformations', 'userShop'])->where('id', Auth::id())->first();
 
             $this->response_message['status'] = 'success';
-            $this->response_message['message'] = 'User role retrieved.';
+            $this->response_message['message'] = 'User retrieved.';
             $this->response_message['result'] = $user;
 
             return response()->json($this->response_message, 200);
@@ -301,6 +301,28 @@ class UserController extends Controller
             $this->response_message['message'] = $e->getMessage();
         }
 
+        return response()->json($this->response_message, 500);
+    }
+
+    public function test(Request $request) {
+        try{
+            $file = $request->file('file');
+            if($request->hasFile('file')){
+                $path = $request->file('file')->store(env('GOOGLE_DRIVE_FOLDER_ID'), 'google');
+                $url = Storage::disk('google')->url($path);
+                dd($url);
+            }else{
+                $this->response_message['status'] = 'failed';
+                $this->response_message['message'] = 'File Upload Failed.';
+            }
+
+            return response()->json( $this->response_message);
+        } catch (\Exception $e) {
+            report($e);
+
+            $this->response_message['message'] = $e->getMessage();
+        }
+        DB::rollBack();
         return response()->json($this->response_message, 500);
     }
 }

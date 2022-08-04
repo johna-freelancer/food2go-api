@@ -1,5 +1,5 @@
 <?php
-
+use Illuminate\Support\Facades\Storage;
 /** @var \Laravel\Lumen\Routing\Router $router */
 
 /*
@@ -16,9 +16,9 @@
 $router->get('/', function () use ($router) {
     return $router->app->version();
 });
+
 $router->group(['prefix' => 'v1'], function () use ($router) {
     $router->post('/login', 'AuthController@login');
-
     $router->group(['middleware' => 'auth'], function() use($router) {
         // Auth
         $router->group(['prefix' => 'auth'], function() use($router) {
@@ -34,6 +34,22 @@ $router->group(['prefix' => 'v1'], function () use ($router) {
             $router->post('', 'UserController@create');
             $router->put('', 'UserController@update');
             $router->delete('{id}', 'UserController@delete');
+        });
+
+        // Product
+        $router->group(['prefix' => 'product'], function() use($router) {
+            $router->get('{id}', 'ProductController@get');
+            $router->post('', 'ProductController@create');
+            $router->post('list', 'ProductController@index');
+            $router->post('upload/{id}', 'ProductController@upload');
+            $router->post('getProductsForInventory', 'ProductController@getProductsForInventory');
+            $router->put('', 'ProductController@update');
+            $router->delete('{id}', 'ProductController@delete');
+        });
+
+         // Inventory
+         $router->group(['prefix' => 'inventory'], function() use($router) {
+            $router->post('list', 'InventoryController@index');
         });
     });
 });

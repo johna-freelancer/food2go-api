@@ -7,7 +7,9 @@
     "require": {
         "php": "^7.3|^8.0",
         "flipbox/lumen-generator": "^9.1",
+        "google/apiclient": "^2.11",
         "laravel/lumen-framework": "^8.0",
+        "nao-pon/flysystem-google-drive": "~1.1",
         "tymon/jwt-auth": "1.0.x-dev"
     },
     "require-dev": {
@@ -37,6 +39,7 @@
     "scripts": {
         "post-root-package-install": [
             "@php -r \"file_exists('.env') || copy('.env.example', '.env');\""
-        ]
+        ],
+        "start" : "php -S localhost:8000 -t public"
     }
 }

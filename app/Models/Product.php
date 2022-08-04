@@ -25,6 +25,10 @@ class Product extends Model
         return $this->belongsTo(User::class, 'user_id');
     }
 
+    public function inventories(){
+        return $this->hasOne(Inventory::class);
+    }
+
     protected $hidden = [
         'pivot'
     ];

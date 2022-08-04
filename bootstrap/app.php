@@ -81,7 +81,7 @@ $app->middleware([
 $app->routeMiddleware([
     'auth' => App\Http\Middleware\Authenticate::class,
 ]);
-
+$app->configure('services');
 /*
 |--------------------------------------------------------------------------
 | Register Service Providers
@@ -93,6 +93,7 @@ $app->routeMiddleware([
 |
 */
 
+$app->register(App\Providers\GoogleDriveServiceProvider::class);
 $app->register(App\Providers\AppServiceProvider::class);
 $app->register(App\Providers\AuthServiceProvider::class);
 // $app->register(App\Providers\EventServiceProvider::class);

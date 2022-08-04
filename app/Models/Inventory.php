@@ -19,10 +19,14 @@ class Inventory extends Model
         'product_id', 'quantity'
     ];
 
-    protected $table = 'products';
+    protected $table = 'inventories';
 
     public function users(){
         return $this->belongsTo(User::class, 'user_id');
+    }
+
+    public function product(){
+        return $this->belongsTo(Product::class, 'product_id');
     }
 
     protected $hidden = [
