@@ -4,7 +4,7 @@
 
 namespace Composer\Autoload;
 
-class ComposerStaticInit0a553f9d57a9623e96753b9a9d044f0b
+class ComposerStaticInitfa006da654a8f0bf7afa0bf2324547fe
 {
     public static $files = array (
         'a4a119a56e50fbb293281d9a48007e0e' => __DIR__ . '/..' . '/symfony/polyfill-php80/bootstrap.php',
@@ -642,6 +642,8 @@ class ComposerStaticInit0a553f9d57a9623e96753b9a9d044f0b
         'App\\Http\\Controllers\\AuthController' => __DIR__ . '/../..' . '/app/Http/Controllers/AuthController.php',
         'App\\Http\\Controllers\\Controller' => __DIR__ . '/../..' . '/app/Http/Controllers/Controller.php',
         'App\\Http\\Controllers\\ExampleController' => __DIR__ . '/../..' . '/app/Http/Controllers/ExampleController.php',
+        'App\\Http\\Controllers\\InventoryController' => __DIR__ . '/../..' . '/app/Http/Controllers/InventoryController.php',
+        'App\\Http\\Controllers\\ProductController' => __DIR__ . '/../..' . '/app/Http/Controllers/ProductController.php',
         'App\\Http\\Controllers\\UserController' => __DIR__ . '/../..' . '/app/Http/Controllers/UserController.php',
         'App\\Http\\Middleware\\Authenticate' => __DIR__ . '/../..' . '/app/Http/Middleware/Authenticate.php',
         'App\\Http\\Middleware\\CorsMiddleware' => __DIR__ . '/../..' . '/app/Http/Middleware/CorsMiddleware.php',
@@ -6186,6 +6188,7 @@ class ComposerStaticInit0a553f9d57a9623e96753b9a9d044f0b
         'Google\\Service\\CloudRetail\\GoogleCloudRetailV2alphaAddFulfillmentPlacesResponse' => __DIR__ . '/..' . '/google/apiclient-services/src/CloudRetail/GoogleCloudRetailV2alphaAddFulfillmentPlacesResponse.php',
         'Google\\Service\\CloudRetail\\GoogleCloudRetailV2alphaAddLocalInventoriesMetadata' => __DIR__ . '/..' . '/google/apiclient-services/src/CloudRetail/GoogleCloudRetailV2alphaAddLocalInventoriesMetadata.php',
         'Google\\Service\\CloudRetail\\GoogleCloudRetailV2alphaAddLocalInventoriesResponse' => __DIR__ . '/..' . '/google/apiclient-services/src/CloudRetail/GoogleCloudRetailV2alphaAddLocalInventoriesResponse.php',
+        'Google\\Service\\CloudRetail\\GoogleCloudRetailV2alphaBigQueryOutputResult' => __DIR__ . '/..' . '/google/apiclient-services/src/CloudRetail/GoogleCloudRetailV2alphaBigQueryOutputResult.php',
         'Google\\Service\\CloudRetail\\GoogleCloudRetailV2alphaCreateModelMetadata' => __DIR__ . '/..' . '/google/apiclient-services/src/CloudRetail/GoogleCloudRetailV2alphaCreateModelMetadata.php',
         'Google\\Service\\CloudRetail\\GoogleCloudRetailV2alphaEnrollSolutionMetadata' => __DIR__ . '/..' . '/google/apiclient-services/src/CloudRetail/GoogleCloudRetailV2alphaEnrollSolutionMetadata.php',
         'Google\\Service\\CloudRetail\\GoogleCloudRetailV2alphaExportErrorsConfig' => __DIR__ . '/..' . '/google/apiclient-services/src/CloudRetail/GoogleCloudRetailV2alphaExportErrorsConfig.php',
@@ -6201,6 +6204,8 @@ class ComposerStaticInit0a553f9d57a9623e96753b9a9d044f0b
         'Google\\Service\\CloudRetail\\GoogleCloudRetailV2alphaModelPageOptimizationConfig' => __DIR__ . '/..' . '/google/apiclient-services/src/CloudRetail/GoogleCloudRetailV2alphaModelPageOptimizationConfig.php',
         'Google\\Service\\CloudRetail\\GoogleCloudRetailV2alphaModelPageOptimizationConfigCandidate' => __DIR__ . '/..' . '/google/apiclient-services/src/CloudRetail/GoogleCloudRetailV2alphaModelPageOptimizationConfigCandidate.php',
         'Google\\Service\\CloudRetail\\GoogleCloudRetailV2alphaModelPageOptimizationConfigPanel' => __DIR__ . '/..' . '/google/apiclient-services/src/CloudRetail/GoogleCloudRetailV2alphaModelPageOptimizationConfigPanel.php',
+        'Google\\Service\\CloudRetail\\GoogleCloudRetailV2alphaModelServingConfigList' => __DIR__ . '/..' . '/google/apiclient-services/src/CloudRetail/GoogleCloudRetailV2alphaModelServingConfigList.php',
+        'Google\\Service\\CloudRetail\\GoogleCloudRetailV2alphaOutputResult' => __DIR__ . '/..' . '/google/apiclient-services/src/CloudRetail/GoogleCloudRetailV2alphaOutputResult.php',
         'Google\\Service\\CloudRetail\\GoogleCloudRetailV2alphaPurgeMetadata' => __DIR__ . '/..' . '/google/apiclient-services/src/CloudRetail/GoogleCloudRetailV2alphaPurgeMetadata.php',
         'Google\\Service\\CloudRetail\\GoogleCloudRetailV2alphaPurgeProductsMetadata' => __DIR__ . '/..' . '/google/apiclient-services/src/CloudRetail/GoogleCloudRetailV2alphaPurgeProductsMetadata.php',
         'Google\\Service\\CloudRetail\\GoogleCloudRetailV2alphaPurgeProductsResponse' => __DIR__ . '/..' . '/google/apiclient-services/src/CloudRetail/GoogleCloudRetailV2alphaPurgeProductsResponse.php',
@@ -6222,6 +6227,7 @@ class ComposerStaticInit0a553f9d57a9623e96753b9a9d044f0b
         'Google\\Service\\CloudRetail\\GoogleCloudRetailV2betaAddFulfillmentPlacesResponse' => __DIR__ . '/..' . '/google/apiclient-services/src/CloudRetail/GoogleCloudRetailV2betaAddFulfillmentPlacesResponse.php',
         'Google\\Service\\CloudRetail\\GoogleCloudRetailV2betaAddLocalInventoriesMetadata' => __DIR__ . '/..' . '/google/apiclient-services/src/CloudRetail/GoogleCloudRetailV2betaAddLocalInventoriesMetadata.php',
         'Google\\Service\\CloudRetail\\GoogleCloudRetailV2betaAddLocalInventoriesResponse' => __DIR__ . '/..' . '/google/apiclient-services/src/CloudRetail/GoogleCloudRetailV2betaAddLocalInventoriesResponse.php',
+        'Google\\Service\\CloudRetail\\GoogleCloudRetailV2betaBigQueryOutputResult' => __DIR__ . '/..' . '/google/apiclient-services/src/CloudRetail/GoogleCloudRetailV2betaBigQueryOutputResult.php',
         'Google\\Service\\CloudRetail\\GoogleCloudRetailV2betaExportErrorsConfig' => __DIR__ . '/..' . '/google/apiclient-services/src/CloudRetail/GoogleCloudRetailV2betaExportErrorsConfig.php',
         'Google\\Service\\CloudRetail\\GoogleCloudRetailV2betaExportMetadata' => __DIR__ . '/..' . '/google/apiclient-services/src/CloudRetail/GoogleCloudRetailV2betaExportMetadata.php',
         'Google\\Service\\CloudRetail\\GoogleCloudRetailV2betaExportProductsResponse' => __DIR__ . '/..' . '/google/apiclient-services/src/CloudRetail/GoogleCloudRetailV2betaExportProductsResponse.php',
@@ -6231,6 +6237,7 @@ class ComposerStaticInit0a553f9d57a9623e96753b9a9d044f0b
         'Google\\Service\\CloudRetail\\GoogleCloudRetailV2betaImportMetadata' => __DIR__ . '/..' . '/google/apiclient-services/src/CloudRetail/GoogleCloudRetailV2betaImportMetadata.php',
         'Google\\Service\\CloudRetail\\GoogleCloudRetailV2betaImportProductsResponse' => __DIR__ . '/..' . '/google/apiclient-services/src/CloudRetail/GoogleCloudRetailV2betaImportProductsResponse.php',
         'Google\\Service\\CloudRetail\\GoogleCloudRetailV2betaImportUserEventsResponse' => __DIR__ . '/..' . '/google/apiclient-services/src/CloudRetail/GoogleCloudRetailV2betaImportUserEventsResponse.php',
+        'Google\\Service\\CloudRetail\\GoogleCloudRetailV2betaOutputResult' => __DIR__ . '/..' . '/google/apiclient-services/src/CloudRetail/GoogleCloudRetailV2betaOutputResult.php',
         'Google\\Service\\CloudRetail\\GoogleCloudRetailV2betaPurgeMetadata' => __DIR__ . '/..' . '/google/apiclient-services/src/CloudRetail/GoogleCloudRetailV2betaPurgeMetadata.php',
         'Google\\Service\\CloudRetail\\GoogleCloudRetailV2betaPurgeUserEventsResponse' => __DIR__ . '/..' . '/google/apiclient-services/src/CloudRetail/GoogleCloudRetailV2betaPurgeUserEventsResponse.php',
         'Google\\Service\\CloudRetail\\GoogleCloudRetailV2betaRejoinUserEventsMetadata' => __DIR__ . '/..' . '/google/apiclient-services/src/CloudRetail/GoogleCloudRetailV2betaRejoinUserEventsMetadata.php',
@@ -12879,9 +12886,25 @@ class ComposerStaticInit0a553f9d57a9623e96753b9a9d044f0b
         'Google\\Service\\GoogleAnalyticsAdmin\\GoogleAnalyticsAdminV1alphaAndroidAppDataStream' => __DIR__ . '/..' . '/google/apiclient-services/src/GoogleAnalyticsAdmin/GoogleAnalyticsAdminV1alphaAndroidAppDataStream.php',
         'Google\\Service\\GoogleAnalyticsAdmin\\GoogleAnalyticsAdminV1alphaApproveDisplayVideo360AdvertiserLinkProposalRequest' => __DIR__ . '/..' . '/google/apiclient-services/src/GoogleAnalyticsAdmin/GoogleAnalyticsAdminV1alphaApproveDisplayVideo360AdvertiserLinkProposalRequest.php',
         'Google\\Service\\GoogleAnalyticsAdmin\\GoogleAnalyticsAdminV1alphaApproveDisplayVideo360AdvertiserLinkProposalResponse' => __DIR__ . '/..' . '/google/apiclient-services/src/GoogleAnalyticsAdmin/GoogleAnalyticsAdminV1alphaApproveDisplayVideo360AdvertiserLinkProposalResponse.php',
+        'Google\\Service\\GoogleAnalyticsAdmin\\GoogleAnalyticsAdminV1alphaArchiveAudienceRequest' => __DIR__ . '/..' . '/google/apiclient-services/src/GoogleAnalyticsAdmin/GoogleAnalyticsAdminV1alphaArchiveAudienceRequest.php',
         'Google\\Service\\GoogleAnalyticsAdmin\\GoogleAnalyticsAdminV1alphaArchiveCustomDimensionRequest' => __DIR__ . '/..' . '/google/apiclient-services/src/GoogleAnalyticsAdmin/GoogleAnalyticsAdminV1alphaArchiveCustomDimensionRequest.php',
         'Google\\Service\\GoogleAnalyticsAdmin\\GoogleAnalyticsAdminV1alphaArchiveCustomMetricRequest' => __DIR__ . '/..' . '/google/apiclient-services/src/GoogleAnalyticsAdmin/GoogleAnalyticsAdminV1alphaArchiveCustomMetricRequest.php',
         'Google\\Service\\GoogleAnalyticsAdmin\\GoogleAnalyticsAdminV1alphaAttributionSettings' => __DIR__ . '/..' . '/google/apiclient-services/src/GoogleAnalyticsAdmin/GoogleAnalyticsAdminV1alphaAttributionSettings.php',
+        'Google\\Service\\GoogleAnalyticsAdmin\\GoogleAnalyticsAdminV1alphaAudience' => __DIR__ . '/..' . '/google/apiclient-services/src/GoogleAnalyticsAdmin/GoogleAnalyticsAdminV1alphaAudience.php',
+        'Google\\Service\\GoogleAnalyticsAdmin\\GoogleAnalyticsAdminV1alphaAudienceDimensionOrMetricFilter' => __DIR__ . '/..' . '/google/apiclient-services/src/GoogleAnalyticsAdmin/GoogleAnalyticsAdminV1alphaAudienceDimensionOrMetricFilter.php',
+        'Google\\Service\\GoogleAnalyticsAdmin\\GoogleAnalyticsAdminV1alphaAudienceDimensionOrMetricFilterBetweenFilter' => __DIR__ . '/..' . '/google/apiclient-services/src/GoogleAnalyticsAdmin/GoogleAnalyticsAdminV1alphaAudienceDimensionOrMetricFilterBetweenFilter.php',
+        'Google\\Service\\GoogleAnalyticsAdmin\\GoogleAnalyticsAdminV1alphaAudienceDimensionOrMetricFilterInListFilter' => __DIR__ . '/..' . '/google/apiclient-services/src/GoogleAnalyticsAdmin/GoogleAnalyticsAdminV1alphaAudienceDimensionOrMetricFilterInListFilter.php',
+        'Google\\Service\\GoogleAnalyticsAdmin\\GoogleAnalyticsAdminV1alphaAudienceDimensionOrMetricFilterNumericFilter' => __DIR__ . '/..' . '/google/apiclient-services/src/GoogleAnalyticsAdmin/GoogleAnalyticsAdminV1alphaAudienceDimensionOrMetricFilterNumericFilter.php',
+        'Google\\Service\\GoogleAnalyticsAdmin\\GoogleAnalyticsAdminV1alphaAudienceDimensionOrMetricFilterNumericValue' => __DIR__ . '/..' . '/google/apiclient-services/src/GoogleAnalyticsAdmin/GoogleAnalyticsAdminV1alphaAudienceDimensionOrMetricFilterNumericValue.php',
+        'Google\\Service\\GoogleAnalyticsAdmin\\GoogleAnalyticsAdminV1alphaAudienceDimensionOrMetricFilterStringFilter' => __DIR__ . '/..' . '/google/apiclient-services/src/GoogleAnalyticsAdmin/GoogleAnalyticsAdminV1alphaAudienceDimensionOrMetricFilterStringFilter.php',
+        'Google\\Service\\GoogleAnalyticsAdmin\\GoogleAnalyticsAdminV1alphaAudienceEventFilter' => __DIR__ . '/..' . '/google/apiclient-services/src/GoogleAnalyticsAdmin/GoogleAnalyticsAdminV1alphaAudienceEventFilter.php',
+        'Google\\Service\\GoogleAnalyticsAdmin\\GoogleAnalyticsAdminV1alphaAudienceEventTrigger' => __DIR__ . '/..' . '/google/apiclient-services/src/GoogleAnalyticsAdmin/GoogleAnalyticsAdminV1alphaAudienceEventTrigger.php',
+        'Google\\Service\\GoogleAnalyticsAdmin\\GoogleAnalyticsAdminV1alphaAudienceFilterClause' => __DIR__ . '/..' . '/google/apiclient-services/src/GoogleAnalyticsAdmin/GoogleAnalyticsAdminV1alphaAudienceFilterClause.php',
+        'Google\\Service\\GoogleAnalyticsAdmin\\GoogleAnalyticsAdminV1alphaAudienceFilterExpression' => __DIR__ . '/..' . '/google/apiclient-services/src/GoogleAnalyticsAdmin/GoogleAnalyticsAdminV1alphaAudienceFilterExpression.php',
+        'Google\\Service\\GoogleAnalyticsAdmin\\GoogleAnalyticsAdminV1alphaAudienceFilterExpressionList' => __DIR__ . '/..' . '/google/apiclient-services/src/GoogleAnalyticsAdmin/GoogleAnalyticsAdminV1alphaAudienceFilterExpressionList.php',
+        'Google\\Service\\GoogleAnalyticsAdmin\\GoogleAnalyticsAdminV1alphaAudienceSequenceFilter' => __DIR__ . '/..' . '/google/apiclient-services/src/GoogleAnalyticsAdmin/GoogleAnalyticsAdminV1alphaAudienceSequenceFilter.php',
+        'Google\\Service\\GoogleAnalyticsAdmin\\GoogleAnalyticsAdminV1alphaAudienceSequenceFilterAudienceSequenceStep' => __DIR__ . '/..' . '/google/apiclient-services/src/GoogleAnalyticsAdmin/GoogleAnalyticsAdminV1alphaAudienceSequenceFilterAudienceSequenceStep.php',
+        'Google\\Service\\GoogleAnalyticsAdmin\\GoogleAnalyticsAdminV1alphaAudienceSimpleFilter' => __DIR__ . '/..' . '/google/apiclient-services/src/GoogleAnalyticsAdmin/GoogleAnalyticsAdminV1alphaAudienceSimpleFilter.php',
         'Google\\Service\\GoogleAnalyticsAdmin\\GoogleAnalyticsAdminV1alphaAuditUserLink' => __DIR__ . '/..' . '/google/apiclient-services/src/GoogleAnalyticsAdmin/GoogleAnalyticsAdminV1alphaAuditUserLink.php',
         'Google\\Service\\GoogleAnalyticsAdmin\\GoogleAnalyticsAdminV1alphaAuditUserLinksRequest' => __DIR__ . '/..' . '/google/apiclient-services/src/GoogleAnalyticsAdmin/GoogleAnalyticsAdminV1alphaAuditUserLinksRequest.php',
         'Google\\Service\\GoogleAnalyticsAdmin\\GoogleAnalyticsAdminV1alphaAuditUserLinksResponse' => __DIR__ . '/..' . '/google/apiclient-services/src/GoogleAnalyticsAdmin/GoogleAnalyticsAdminV1alphaAuditUserLinksResponse.php',
@@ -12918,6 +12941,7 @@ class ComposerStaticInit0a553f9d57a9623e96753b9a9d044f0b
         'Google\\Service\\GoogleAnalyticsAdmin\\GoogleAnalyticsAdminV1alphaListAccountSummariesResponse' => __DIR__ . '/..' . '/google/apiclient-services/src/GoogleAnalyticsAdmin/GoogleAnalyticsAdminV1alphaListAccountSummariesResponse.php',
         'Google\\Service\\GoogleAnalyticsAdmin\\GoogleAnalyticsAdminV1alphaListAccountsResponse' => __DIR__ . '/..' . '/google/apiclient-services/src/GoogleAnalyticsAdmin/GoogleAnalyticsAdminV1alphaListAccountsResponse.php',
         'Google\\Service\\GoogleAnalyticsAdmin\\GoogleAnalyticsAdminV1alphaListAndroidAppDataStreamsResponse' => __DIR__ . '/..' . '/google/apiclient-services/src/GoogleAnalyticsAdmin/GoogleAnalyticsAdminV1alphaListAndroidAppDataStreamsResponse.php',
+        'Google\\Service\\GoogleAnalyticsAdmin\\GoogleAnalyticsAdminV1alphaListAudiencesResponse' => __DIR__ . '/..' . '/google/apiclient-services/src/GoogleAnalyticsAdmin/GoogleAnalyticsAdminV1alphaListAudiencesResponse.php',
         'Google\\Service\\GoogleAnalyticsAdmin\\GoogleAnalyticsAdminV1alphaListConversionEventsResponse' => __DIR__ . '/..' . '/google/apiclient-services/src/GoogleAnalyticsAdmin/GoogleAnalyticsAdminV1alphaListConversionEventsResponse.php',
         'Google\\Service\\GoogleAnalyticsAdmin\\GoogleAnalyticsAdminV1alphaListCustomDimensionsResponse' => __DIR__ . '/..' . '/google/apiclient-services/src/GoogleAnalyticsAdmin/GoogleAnalyticsAdminV1alphaListCustomDimensionsResponse.php',
         'Google\\Service\\GoogleAnalyticsAdmin\\GoogleAnalyticsAdminV1alphaListCustomMetricsResponse' => __DIR__ . '/..' . '/google/apiclient-services/src/GoogleAnalyticsAdmin/GoogleAnalyticsAdminV1alphaListCustomMetricsResponse.php',
@@ -12951,6 +12975,7 @@ class ComposerStaticInit0a553f9d57a9623e96753b9a9d044f0b
         'Google\\Service\\GoogleAnalyticsAdmin\\Resource\\Properties' => __DIR__ . '/..' . '/google/apiclient-services/src/GoogleAnalyticsAdmin/Resource/Properties.php',
         'Google\\Service\\GoogleAnalyticsAdmin\\Resource\\PropertiesAndroidAppDataStreams' => __DIR__ . '/..' . '/google/apiclient-services/src/GoogleAnalyticsAdmin/Resource/PropertiesAndroidAppDataStreams.php',
         'Google\\Service\\GoogleAnalyticsAdmin\\Resource\\PropertiesAndroidAppDataStreamsMeasurementProtocolSecrets' => __DIR__ . '/..' . '/google/apiclient-services/src/GoogleAnalyticsAdmin/Resource/PropertiesAndroidAppDataStreamsMeasurementProtocolSecrets.php',
+        'Google\\Service\\GoogleAnalyticsAdmin\\Resource\\PropertiesAudiences' => __DIR__ . '/..' . '/google/apiclient-services/src/GoogleAnalyticsAdmin/Resource/PropertiesAudiences.php',
         'Google\\Service\\GoogleAnalyticsAdmin\\Resource\\PropertiesConversionEvents' => __DIR__ . '/..' . '/google/apiclient-services/src/GoogleAnalyticsAdmin/Resource/PropertiesConversionEvents.php',
         'Google\\Service\\GoogleAnalyticsAdmin\\Resource\\PropertiesCustomDimensions' => __DIR__ . '/..' . '/google/apiclient-services/src/GoogleAnalyticsAdmin/Resource/PropertiesCustomDimensions.php',
         'Google\\Service\\GoogleAnalyticsAdmin\\Resource\\PropertiesCustomMetrics' => __DIR__ . '/..' . '/google/apiclient-services/src/GoogleAnalyticsAdmin/Resource/PropertiesCustomMetrics.php',
@@ -13052,6 +13077,7 @@ class ComposerStaticInit0a553f9d57a9623e96753b9a9d044f0b
         'Google\\Service\\HangoutsChat\\SlashCommand' => __DIR__ . '/..' . '/google/apiclient-services/src/HangoutsChat/SlashCommand.php',
         'Google\\Service\\HangoutsChat\\SlashCommandMetadata' => __DIR__ . '/..' . '/google/apiclient-services/src/HangoutsChat/SlashCommandMetadata.php',
         'Google\\Service\\HangoutsChat\\Space' => __DIR__ . '/..' . '/google/apiclient-services/src/HangoutsChat/Space.php',
+        'Google\\Service\\HangoutsChat\\SpaceDetails' => __DIR__ . '/..' . '/google/apiclient-services/src/HangoutsChat/SpaceDetails.php',
         'Google\\Service\\HangoutsChat\\Status' => __DIR__ . '/..' . '/google/apiclient-services/src/HangoutsChat/Status.php',
         'Google\\Service\\HangoutsChat\\StringInputs' => __DIR__ . '/..' . '/google/apiclient-services/src/HangoutsChat/StringInputs.php',
         'Google\\Service\\HangoutsChat\\TextButton' => __DIR__ . '/..' . '/google/apiclient-services/src/HangoutsChat/TextButton.php',
@@ -16865,6 +16891,7 @@ class ComposerStaticInit0a553f9d57a9623e96753b9a9d044f0b
         'Google\\Service\\Spanner\\ExecuteSqlRequest' => __DIR__ . '/..' . '/google/apiclient-services/src/Spanner/ExecuteSqlRequest.php',
         'Google\\Service\\Spanner\\Expr' => __DIR__ . '/..' . '/google/apiclient-services/src/Spanner/Expr.php',
         'Google\\Service\\Spanner\\Field' => __DIR__ . '/..' . '/google/apiclient-services/src/Spanner/Field.php',
+        'Google\\Service\\Spanner\\FreeInstanceMetadata' => __DIR__ . '/..' . '/google/apiclient-services/src/Spanner/FreeInstanceMetadata.php',
         'Google\\Service\\Spanner\\GetDatabaseDdlResponse' => __DIR__ . '/..' . '/google/apiclient-services/src/Spanner/GetDatabaseDdlResponse.php',
         'Google\\Service\\Spanner\\GetIamPolicyRequest' => __DIR__ . '/..' . '/google/apiclient-services/src/Spanner/GetIamPolicyRequest.php',
         'Google\\Service\\Spanner\\GetPolicyOptions' => __DIR__ . '/..' . '/google/apiclient-services/src/Spanner/GetPolicyOptions.php',
@@ -22325,10 +22352,10 @@ class ComposerStaticInit0a553f9d57a9623e96753b9a9d044f0b
     public static function getInitializer(ClassLoader $loader)
     {
         return \Closure::bind(function () use ($loader) {
-            $loader->prefixLengthsPsr4 = ComposerStaticInit0a553f9d57a9623e96753b9a9d044f0b::$prefixLengthsPsr4;
-            $loader->prefixDirsPsr4 = ComposerStaticInit0a553f9d57a9623e96753b9a9d044f0b::$prefixDirsPsr4;
-            $loader->prefixesPsr0 = ComposerStaticInit0a553f9d57a9623e96753b9a9d044f0b::$prefixesPsr0;
-            $loader->classMap = ComposerStaticInit0a553f9d57a9623e96753b9a9d044f0b::$classMap;
+            $loader->prefixLengthsPsr4 = ComposerStaticInitfa006da654a8f0bf7afa0bf2324547fe::$prefixLengthsPsr4;
+            $loader->prefixDirsPsr4 = ComposerStaticInitfa006da654a8f0bf7afa0bf2324547fe::$prefixDirsPsr4;
+            $loader->prefixesPsr0 = ComposerStaticInitfa006da654a8f0bf7afa0bf2324547fe::$prefixesPsr0;
+            $loader->classMap = ComposerStaticInitfa006da654a8f0bf7afa0bf2324547fe::$classMap;
 
         }, null, ClassLoader::class);
     }
