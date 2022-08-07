@@ -47,7 +47,7 @@ $router->group(['prefix' => 'v1'], function () use ($router) {
             $router->post('list', 'ProductController@index');
             $router->post('upload/{id}', 'ProductController@upload');
             $router->post('getProductsForInventory', 'ProductController@getProductsForInventory');
-            $router->put('', 'ProductController@update');
+            $router->post('update', 'ProductController@update');
             $router->delete('{id}', 'ProductController@delete');
         });
 
