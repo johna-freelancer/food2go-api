@@ -116,6 +116,13 @@ class UserController extends Controller
                     $user_informations_data['user_informations']['user_id'] = $user->id;
                     $user_informations = UserInformation::create($user_informations_data['user_informations']);
                     $user['user_informations'] = $user_informations;
+                } else {
+                    $user_information = [
+                        "complete_address" => "",
+                        "primary_contact"=> "",
+                        "secondary_contact"=> ""
+                    ];
+                    $user_informations = UserInformation::create($user_information);
                 }
                 if (isset($request->user_shop)) {
                     $user_shop_data = $request->only([
@@ -124,6 +131,26 @@ class UserController extends Controller
                     $user_shop_data['user_shop']['user_id'] = $user->id;
                     $user_shop = UserShop::create($user_shop_data['user_shop']);
                     $user['user_shop'] = $user_shop;
+                } else {
+                    $user_shop = [
+                        "name" => "",
+                        "address" => "",
+                        "contact" => "",
+                        "open_hour" => "",
+                        "close_hour" => "",
+                        "status" => "closed",
+                        "monday" => 1,
+                        "tuesday" => 1,
+                        "wednesday" => 1,
+                        "thursday" => 1,
+                        "friday" => 1,
+                        "saturday" => true,
+                        "sunday" => 0,
+                        "pm_gcash" => true,
+                        "pm_cod" => true,
+                        "is_active" => 0
+                    ];
+                    $user_informations = UserInformation::create($user_information);
                 }
                 DB::commit();
                 $this->response_message['status'] = 'success';
