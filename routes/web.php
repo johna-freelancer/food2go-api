@@ -20,6 +20,9 @@ $router->get('/', function () use ($router) {
 $router->group(['prefix' => 'v1'], function () use ($router) {
     $router->post('/login', 'AuthController@login');
     $router->post('/test', 'AuthController@test');
+    $router->group(['prefix' => 'consumer'], function() use($router) {
+        $router->get('search', 'ConsumerController@searchStoreByProductOrName');
+    });
     $router->group(['middleware' => 'auth'], function() use($router) {
         // Auth
         $router->group(['prefix' => 'auth'], function() use($router) {
@@ -33,7 +36,7 @@ $router->group(['prefix' => 'v1'], function () use ($router) {
             $router->get('', 'UserController@me');
             $router->post('list', 'UserController@index');
             $router->post('', 'UserController@create');
-            $router->put('', 'UserController@update');
+            $router->post('update', 'UserController@update');
             $router->delete('{id}', 'UserController@delete');
         });
 

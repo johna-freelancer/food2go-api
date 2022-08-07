@@ -22,4 +22,8 @@ class Controller extends BaseController
 
 		], 200);
 	}
+
+    protected function cleanString($keyword) {
+        return TRIM(preg_replace('/[^a-zA-Z0-9]/', '',$keyword));
+    }
 }
