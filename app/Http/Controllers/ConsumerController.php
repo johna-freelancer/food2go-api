@@ -43,6 +43,7 @@ class ConsumerController extends Controller
             ->get()->pluck('user_id');
 
             $shops = UserShop::with('users')->where('name', 'LIKE', '%' . ($keyword) . '%')
+            ->where('is_active', '1')
             ->orWhereIn('user_id', $inventory_user_ids)
             ->get();
 
