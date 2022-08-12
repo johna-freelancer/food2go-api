@@ -122,7 +122,7 @@ class UserController extends Controller
                         "primary_contact"=> "",
                         "secondary_contact"=> ""
                     ];
-                    $user_informations = UserInformation::create($user_information);
+                    $user['user_informations'] = UserInformation::create($user_information);
                 }
                 if (isset($request->user_shop)) {
                     $user_shop_data = $request->only([
@@ -150,7 +150,8 @@ class UserController extends Controller
                         "pm_cod" => true,
                         "is_active" => 0
                     ];
-                    $user_informations = UserInformation::create($user_information);
+                    $user_shop = UserShop::create($user_shop);
+                    $user['user_shop'] = $user_shop;
                 }
                 DB::commit();
                 $this->response_message['status'] = 'success';
@@ -176,6 +177,70 @@ class UserController extends Controller
 
         return response()->json($this->response_message, 500);
     }
+
+
+
+    public function createBuyer(Request $request) {
+        try {
+            $this->validate($request, [
+                'first_name' => 'required|max:100',
+                'last_name' => 'required|max:100',
+                'email' => 'required|email|max:200', 'unique',
+                'password' => 'required|max:60',
+            ]);
+            $user_data = $request->only([
+                'first_name',
+                'last_name',
+                'email',
+                'password',
+            ]);
+
+            $emailValidation = User::where('email', $user_data['email'])->first();
+            if (!empty($emailValidation)) {
+                $this->response_message['status'] = 'failed';
+                $this->response_message['message'] = 'Email already exist';
+
+                return response()->json($this->response_message, 409);
+            }
+            $user_data['status'] = 'active';
+            $user_data['role'] = 'buyer';
+            DB::beginTransaction();
+            $user = User::create($user_data);
+
+            if (!empty($user)) {
+
+                    $user_information = [
+                        "complete_address" => $request->complete_address,
+                        "primary_contact"=> $request->primary_contact,
+                        "secondary_contact"=> ""
+                    ];
+                    $user['user_informations'] = UserInformation::create($user_information);
+
+                DB::commit();
+                $this->response_message['status'] = 'success';
+                $this->response_message['message'] = 'User successfully created';
+                $this->response_message['result'] = $user;
+
+                return response()->json($this->response_message, 200);
+            }
+
+        } catch (ValidationException $e) {
+            info($e);
+            $errors = $e->errors();
+            $this->response_message['message'] = reset($errors)[0];
+
+            return response()->json($this->response_message, 400);
+
+        } catch (\Exception $e) {
+            report($e);
+
+            $this->response_message['message'] = $e->getMessage();
+        }
+        DB::rollBack();
+
+        return response()->json($this->response_message, 500);
+    }
+
 
     public function update(Request $request) {
         try {
