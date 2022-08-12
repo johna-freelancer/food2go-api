@@ -118,6 +118,7 @@ class UserController extends Controller
                     $user['user_informations'] = $user_informations;
                 } else {
                     $user_information = [
+                        "user_id" => $user->id,
                         "complete_address" => "",
                         "primary_contact"=> "",
                         "secondary_contact"=> ""
@@ -133,6 +134,7 @@ class UserController extends Controller
                     $user['user_shop'] = $user_shop;
                 } else {
                     $user_shop = [
+                        "user_id" => $user->id,
                         "name" => "",
                         "address" => "",
                         "contact" => "",
@@ -210,6 +212,7 @@ class UserController extends Controller
             if (!empty($user)) {
 
                     $user_information = [
+                        "user_id" => $user->id,
                         "complete_address" => $request->complete_address,
                         "primary_contact"=> $request->primary_contact,
                         "secondary_contact"=> ""
