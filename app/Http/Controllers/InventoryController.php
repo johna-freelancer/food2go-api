@@ -108,4 +108,31 @@ class InventoryController extends BaseController
         return response()->json($this->response_message, 500);
     }
 
+    public function changeQuantity(Request $request) {
+        try {
+            $request_data = $request->only([
+                'quantity',
+                'product_id'
+            ]);
+
+             DB::beginTransaction();
+             $inventory = Inventory::where('product_id', $request_data['product_id'])->first();
+
+
+            if ($inventory->update($request_data)) {
+                DB::commit();
+                $this->response_message['status'] = 'success';
+                $this->response_message['message'] = 'Inventory updated.';
+                $this->response_message['result'] = $inventory;
+
+                return response()->json($this->response_message, 200);
+            }
+        } catch (\Exception $e) {
+            report($e);
+            $this->response_message['message'] = $e->getMessage();
+        }
+
+        return response()->json($this->response_message, 500);
+    }
+
 }
