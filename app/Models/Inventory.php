@@ -16,7 +16,7 @@ class Inventory extends Model
      * @var array
      */
     protected $fillable = [
-        'product_id', 'quantity'
+        'product_id', 'quantity', 'user_id'
     ];
 
     protected $table = 'inventories';

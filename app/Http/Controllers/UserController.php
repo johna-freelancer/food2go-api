@@ -140,7 +140,7 @@ class UserController extends Controller
                         "contact" => "",
                         "open_hour" => "",
                         "close_hour" => "",
-                        "status" => "closed",
+                        "status" => "close",
                         "monday" => 1,
                         "tuesday" => 1,
                         "wednesday" => 1,
@@ -221,7 +221,7 @@ class UserController extends Controller
 
                 DB::commit();
                 $this->response_message['status'] = 'success';
-                $this->response_message['message'] = 'User successfully created';
+                $this->response_message['message'] = 'Registration successfully!';
                 $this->response_message['result'] = $user;
 
                 return response()->json($this->response_message, 200);

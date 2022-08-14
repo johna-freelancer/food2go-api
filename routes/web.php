@@ -55,6 +55,7 @@ $router->group(['prefix' => 'v1'], function () use ($router) {
          // Inventory
          $router->group(['prefix' => 'inventory'], function() use($router) {
             $router->post('list', 'InventoryController@index');
+            $router->post('add', 'InventoryController@addProduct');
         });
     });
 });
