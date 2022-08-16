@@ -108,6 +108,50 @@ class InventoryController extends BaseController
         return response()->json($this->response_message, 500);
     }
 
+    public function addProductWithQuantity(Request $request) {
+        try {
+            $request_data = $request->only([
+                'quantity',
+                'product_id'
+            ]);
+            $validate = Inventory::where('product_id', $request_data['product_id'])->first();
+            if (!empty($validate)) {
+                $this->response_message['status'] = 'failed';
+                $this->response_message['message'] = 'Product is already in inventory.';
+                return response()->json($this->response_message, 409);
+            }
+            DB::beginTransaction();
+            $inventory_data['product_id'] = $request_data['product_id'];
+            $inventory_data['quantity'] = $request_data['quantity'];
+            $inventory_data['user_id'] = Auth::id();
+            $inventory = Inventory::create($inventory_data);
+
+            if (!empty($inventory)) {
+                DB::commit();
+                $this->response_message['status'] = 'success';
+                $this->response_message['message'] = 'Product has been added in inventory.';
+                $this->response_message['result'] = $inventory;
+
+                return response()->json($this->response_message, 200);
+            }
+
+        } catch (ValidationException $e) {
+            info($e);
+            $errors = $e->errors();
+            $this->response_message['message'] = reset($errors)[0];
+
+            return response()->json($this->response_message, 400);
+
+        } catch (\Exception $e) {
+            report($e);
+
+            $this->response_message['message'] = $e->getMessage();
+        }
+        DB::rollBack();
+
+        return response()->json($this->response_message, 500);
+    }
+
     public function changeQuantity(Request $request) {
         try {
             $request_data = $request->only([

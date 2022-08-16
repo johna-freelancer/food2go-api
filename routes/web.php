@@ -57,6 +57,7 @@ $router->group(['prefix' => 'v1'], function () use ($router) {
             $router->post('list', 'InventoryController@index');
             $router->post('add/{product_id}', 'InventoryController@addProduct');
             $router->post('modifyQuantity', 'InventoryController@changeQuantity');
+            $router->post('add', 'InventoryController@addProductWithQuantity');
         });
     });
 });
