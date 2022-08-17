@@ -75,8 +75,31 @@ class ConsumerController extends Controller
             leftJoin('products as product', function ($join) {
                 $join->on('product.id', '=', 'inventories.product_id');
             })
-            ->where('inventories.user_id', $userShop->user_id)->get();
-
+            ->where('inventories.user_id', $userShop->user_id)->get()->toArray();
+            $carouselPage = Count($inventory)/5;
+            $carouselRemainder = Count($inventory)%5;
+            $data = [];
+            for($page = 1; $page <= $carouselPage; $page++){
+                $item['page'] = $page;
+                if ($page == $carouselPage) {
+                    $products = [];
+                    if ($carouselRemainder > 0) {
+                        for ($product = 0; $product < $carouselRemainder; $product) {
+                            array_push($products, $inventory[$product*$page]);
+                        }
+                    } else {
+                        for ($product = 0; $product < 5; $product) {
+                            array_push($products, $inventory[$product*$page]);
+                        }
+                    }
+                } else {
+                    for ($product = 0; $product < 5; $product) {
+                        array_push($products, $inventory[$product*$page]);
+                    }
+                }
+                $item['products'] = $products;
+            }
+            dd($item);
             $this->response_message['status'] = 'success';
             $this->response_message['message'] = 'Store successfully retrieved.';
             $this->response_message['result'] = $inventory;
