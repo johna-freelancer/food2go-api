@@ -104,7 +104,7 @@ class ConsumerController extends Controller
             }
             $this->response_message['status'] = 'success';
             $this->response_message['message'] = 'Store successfully retrieved.';
-            $this->response_message['result'] = $inventory;
+            $this->response_message['result'] = $data;
 
             return response()->json($this->response_message, 200);
         } catch (\Exception $e) {
