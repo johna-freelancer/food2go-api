@@ -99,7 +99,7 @@ class ConsumerController extends Controller
                     array_push($products, $inventory[$product*(((int)$carouselPage)+1)]);
                 }
                 $item = [
-                    'page' => $carouselPage+1,
+                    'page' => (((int)$carouselPage)+1),
                     'products' => $products
                 ];
                 array_push($data, $item);
