@@ -65,6 +65,12 @@ class ConsumerController extends Controller
         try {
 
             $userShop = UserShop::where('id', $store_id)->first();
+            if (empty($userShop)) {
+                $this->response_message['status'] = 'failed';
+                $this->response_message['message'] = 'Store does not exist';
+
+                return response()->json($this->response_message, 404);
+            }
             $inventory = Inventory::
             leftJoin('products as product', function ($join) {
                 $join->on('product.id', '=', 'inventories.product_id');
