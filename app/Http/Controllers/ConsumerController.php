@@ -84,8 +84,8 @@ class ConsumerController extends Controller
                 $products = [];
 
                 for ($product = 0; $product < 5; $product++) {
-                    array_push($products, $inventory[0]);
-                    unset($inventory[$product*$page]);
+                    $prod = array_pop($inventory);
+                    array_push($products, $prod);
                 }
 
                 $item = [
@@ -95,17 +95,11 @@ class ConsumerController extends Controller
                 array_push($data, $item);
             }
             if ($carouselRemainder > 0) {
-                $products = [];
-                for ($product = 1; $product <= $carouselRemainder; $product++) {
-                    array_push($products, $inventory[0]);
-                    unset($inventory[$product*$page]);
-                }
                 $item = [
                     'page' => (((int)$carouselPage)+1),
-                    'products' => $products
+                    'products' => $inventory
                 ];
                 array_push($data, $item);
-
             }
             $this->response_message['status'] = 'success';
             $this->response_message['message'] = 'Store successfully retrieved.';
