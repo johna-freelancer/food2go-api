@@ -84,7 +84,8 @@ class ConsumerController extends Controller
                 $products = [];
 
                 for ($product = 0; $product < 5; $product++) {
-                    array_push($products, $inventory[$product*$page]);
+                    array_push($products, $inventory[0]);
+                    unset($inventory[$product*$page]);
                 }
 
                 $item = [
@@ -96,7 +97,8 @@ class ConsumerController extends Controller
             if ($carouselRemainder > 0) {
                 $products = [];
                 for ($product = 1; $product <= $carouselRemainder; $product++) {
-                    array_push($products, $inventory[$product*(((int)$carouselPage)+1)]);
+                    array_push($products, $inventory[0]);
+                    unset($inventory[$product*$page]);
                 }
                 $item = [
                     'page' => (((int)$carouselPage)+1),
