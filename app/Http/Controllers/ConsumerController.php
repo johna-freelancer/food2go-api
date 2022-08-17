@@ -78,29 +78,26 @@ class ConsumerController extends Controller
             ->where('inventories.user_id', $userShop->user_id)->get()->toArray();
             $carouselPage = Count($inventory)/5;
             $carouselRemainder = Count($inventory)%5;
+            $carouselPage = ($carouselPage < 1 ? 1 : $carouselPage);
             $data = [];
-            for($page = 1; $page <= ($carouselPage < 1 ? 1 : $carouselPage); $page++){
+            for($page = 1; $page <= $carouselPage; $page++){
                 $products = [];
-                if ($page == ($carouselPage < 1 ? 1 : $carouselPage)) {
-                    if ($carouselRemainder > 0) {
-                        for ($product = 0; $product < $carouselRemainder; $product++) {
-                            array_push($products, $inventory[$product*$page]);
-                        }
-                    } else {
-                        for ($product = 0; $product < 5; $product++) {
-                            array_push($products, $inventory[$product*$page]);
-                        }
-                    }
-                } else {
-                    for ($product = 0; $product < 5; $product++) {
-                        array_push($products, $inventory[$product*$page]);
-                    }
+
+                for ($product = 0; $product < 5; $product++) {
+                    array_push($products, $inventory[$product*$page]);
                 }
+
                 $item = [
                     'page' => $page,
                     'products' => $products
                 ];
                 array_push($data, $item);
+            }
+            if ($carouselRemainder > 0) {
+                $products = [];
+                for ($product = 0; $product < $carouselRemainder; $product++) {
+                    array_push($products, $inventory[$product*$carouselPage+1]);
+                }
             }
             $this->response_message['status'] = 'success';
             $this->response_message['message'] = 'Store successfully retrieved.';
