@@ -80,7 +80,6 @@ class ConsumerController extends Controller
             $carouselRemainder = Count($inventory)%5;
             $data = [];
             for($page = 1; $page <= $carouselPage; $page++){
-                $item['page'] = $page;
                 if ($page == $carouselPage) {
                     $products = [];
                     if ($carouselRemainder > 0) {
@@ -97,9 +96,12 @@ class ConsumerController extends Controller
                         array_push($products, $inventory[$product*$page]);
                     }
                 }
-                $item['products'] = $products;
+                $item = [
+                    'page' => $page,
+                    'products' => $products
+                ];
+                array_push($data, $item);
             }
-            dd($item);
             $this->response_message['status'] = 'success';
             $this->response_message['message'] = 'Store successfully retrieved.';
             $this->response_message['result'] = $inventory;
