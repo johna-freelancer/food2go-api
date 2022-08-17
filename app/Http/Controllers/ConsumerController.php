@@ -96,7 +96,7 @@ class ConsumerController extends Controller
             if ($carouselRemainder > 0) {
                 $products = [];
                 for ($product = 0; $product < $carouselRemainder; $product++) {
-                    array_push($products, $inventory[$product*$carouselPage+1]);
+                    array_push($products, $inventory[$product*(((int)$carouselPage)+1)]);
                 }
                 $item = [
                     'page' => $carouselPage+1,
