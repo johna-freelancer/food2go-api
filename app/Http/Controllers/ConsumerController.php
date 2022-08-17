@@ -79,7 +79,7 @@ class ConsumerController extends Controller
             $carouselPage = Count($inventory)/5;
             $carouselRemainder = Count($inventory)%5;
             $data = [];
-            for($page = 1; $page <= $carouselPage; $page++){
+            for($page = 1; $page <= ($carouselPage < 1 ? 1 : $carouselPage); $page++){
                 if ($page == $carouselPage) {
                     $products = [];
                     if ($carouselRemainder > 0) {
