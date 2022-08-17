@@ -23,6 +23,7 @@ $router->group(['prefix' => 'v1'], function () use ($router) {
     $router->post('/createBuyer', 'UserController@createBuyer');
     $router->group(['prefix' => 'consumer'], function() use($router) {
         $router->get('search', 'ConsumerController@searchStoreByProductOrName');
+        $router->get('products/{store_id}', 'ConsumerController@getAllAvailableProductByStoreId');
     });
     $router->group(['middleware' => 'auth'], function() use($router) {
         // Auth

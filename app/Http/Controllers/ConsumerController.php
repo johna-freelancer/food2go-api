@@ -61,4 +61,28 @@ class ConsumerController extends Controller
         return response()->json($this->response_message, 500);
     }
 
+    public function getAllAvailableProductByStoreId($store_id) {
+        try {
+
+            $userShop = UserShop::where('id', $store_id)->first();
+            $inventory = Inventory::
+            leftJoin('products as product', function ($join) {
+                $join->on('product.id', '=', 'inventories.product_id');
+            })
+            ->where('inventories.user_id', $userShop->user_id)->get();
+
+            $this->response_message['status'] = 'success';
+            $this->response_message['message'] = 'Store successfully retrieved.';
+            $this->response_message['result'] = $inventory;
+
+            return response()->json($this->response_message, 200);
+        } catch (\Exception $e) {
+            report($e);
+            $this->response_message['status'] = 'failed';
+            $this->response_message['message'] = $e->getMessage();
+        }
+
+        return response()->json($this->response_message, 500);
+    }
+
 }
