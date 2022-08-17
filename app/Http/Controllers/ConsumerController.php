@@ -83,16 +83,16 @@ class ConsumerController extends Controller
                 $products = [];
                 if ($page == $carouselPage) {
                     if ($carouselRemainder > 0) {
-                        for ($product = 0; $product < $carouselRemainder; $product) {
+                        for ($product = 0; $product < $carouselRemainder; $product++) {
                             array_push($products, $inventory[$product*$page]);
                         }
                     } else {
-                        for ($product = 0; $product < 5; $product) {
+                        for ($product = 0; $product < 5; $product++) {
                             array_push($products, $inventory[$product*$page]);
                         }
                     }
                 } else {
-                    for ($product = 0; $product < 5; $product) {
+                    for ($product = 0; $product < 5; $product++) {
                         array_push($products, $inventory[$product*$page]);
                     }
                 }
