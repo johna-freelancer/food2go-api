@@ -24,6 +24,7 @@ $router->group(['prefix' => 'v1'], function () use ($router) {
     $router->group(['prefix' => 'consumer'], function() use($router) {
         $router->get('search', 'ConsumerController@searchStoreByProductOrName');
         $router->get('products/{store_id}', 'ConsumerController@getAllAvailableProductByStoreId');
+        $router->post('', 'OrderController@getOrdersByMerchantUserId');
     });
     $router->group(['middleware' => 'auth'], function() use($router) {
         // Auth
@@ -60,5 +61,11 @@ $router->group(['prefix' => 'v1'], function () use ($router) {
             $router->post('modifyQuantity', 'InventoryController@changeQuantity');
             $router->post('add', 'InventoryController@addProductWithQuantity');
         });
+
+        //orders
+        $router->group(['prefix' => 'orders'], function() use($router) {
+            $router->post('', 'InventoryController@getOrdersByMerchantUserId');
+        });
+
     });
 });
