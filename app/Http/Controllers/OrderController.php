@@ -156,6 +156,66 @@ class OrderController extends BaseController
         return response()->json($this->response_message, 500);
     }
 
+    public function changeStatus(Request $request) {
+        try {
+            if (!isset($request->order_id)) {
+                $this->response_message['status'] = 'failed';
+                $this->response_message['message'] = 'Order number is required';
+                return response()->json($this->response_message, 400);
+            }
+            if (!isset($request->status)) {
+                $this->response_message['status'] = 'failed';
+                $this->response_message['message'] = 'Status is required';
+                return response()->json($this->response_message, 400);
+            } else {
+                if (!isset($request->remarks)) {
+                    $this->response_message['status'] = 'failed';
+                    $this->response_message['message'] = 'Remarks is required';
+                    return response()->json($this->response_message, 400);
+                }
+            }
+            $order_id = $request->order_id;
+            $status = $request->status;
+            $remarks = $request->remarks;
+            DB::beginTransaction();
+            $order = Order::where('id', $order_id)->first();
+            if (!empty($order)) {
+                if($status == 'rejected') {
+                    $order->remarks = $remarks;
+                    $response_message['message'] = "Order #".$order_id.' was rejected.';
+                } else if ($status == 'preparing') {
+                    $response_message['message'] = "Order #".$order_id.' is now preparing.';
+                } else if ($status == 'outfordelivery') {
+                    $response_message['message'] = "Order #".$order_id.' is out for delivery.';
+                } else {
+                    $response_message['message'] = "Order #".$order_id.' is complete.';
+                }
+                $order->status = $status;
+                $order->save();
+
+                DB::commit();
+                $this->response_message['status'] = 'success';
+                $this->response_message['result'] = $order;
+                return response()->json($this->response_message, 200);
+            }
+
+        } catch (ValidationException $e) {
+            info($e);
+            $errors = $e->errors();
+            $this->response_message['message'] = reset($errors)[0];
+
+            return response()->json($this->response_message, 400);
+
+        } catch (\Exception $e) {
+            report($e);
+
+            $this->response_message['message'] = $e->getMessage();
+        }
+        DB::rollBack();
+
+        return response()->json($this->response_message, 500);
+    }
+
 
 
 }
