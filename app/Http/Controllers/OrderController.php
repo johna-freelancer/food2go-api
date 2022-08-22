@@ -249,7 +249,7 @@ class OrderController extends BaseController
 
     public function trackOrder($order_id) {
         try {
-            $order = Order::where('id', $order_id)->select('status', 'remarks')
+            $order = Order::where('id', $order_id)->select('status', 'remarks')->where('customer_user_id')
                     ->first();
             if (!empty($order)) {
                 if ($order->status == 'pending') {
