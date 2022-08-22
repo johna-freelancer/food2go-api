@@ -82,7 +82,7 @@ class OrderController extends BaseController
                     $order_list = OrderList::create($item_data);
                     $total += $order_list->subtotal;
                 }
-                $order['total'] = $total + $delivery_charge + $convenience_fee;
+                $order['total'] = $total;
                 $order->save();
                 DB::commit();
                 $this->response_message['status'] = 'success';
