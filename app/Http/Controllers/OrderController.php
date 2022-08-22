@@ -86,7 +86,7 @@ class OrderController extends BaseController
                 $order->save();
                 DB::commit();
                 $this->response_message['status'] = 'success';
-                $this->response_message['message'] = 'Order is now in queue. Order number ' . $order->id;
+                $this->response_message['message'] = 'Your order is now in queue.<br>Order number: ' . $order->id;
                 $this->response_message['result'] = $order;
 
                 return response()->json($this->response_message, 200);
