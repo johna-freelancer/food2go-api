@@ -216,6 +216,36 @@ class OrderController extends BaseController
         return response()->json($this->response_message, 500);
     }
 
+    public function upload(Request $request, $id) {
+        try{
+            if($request->hasFile('file')){
+                $path = $request->file('file')->store(env('GOOGLE_DRIVE_FOLDER_ID'), 'google');
+                $url = Storage::disk('google')->url($path);
+                $order = Order::where('id', $id)->first();
+                DB::beginTransaction();
+                if (!empty($order)) {
+                    $order->proof_url = $url;
+                    $order->save();
+                    DB::commit();
+                    $this->response_message['status'] = 'success';
+                    $this->response_message['message'] = 'File upload successfully.';
+
+                    return response()->json($this->response_message, 200);
+                }
+            }else{
+                $this->response_message['status'] = 'failed';
+                $this->response_message['message'] = 'File upload failed.';
+            }
+
+            return response()->json( $this->response_message);
+        } catch (\Exception $e) {
+            report($e);
+
+            $this->response_message['message'] = $e->getMessage();
+        }
+        DB::rollBack();
+        return response()->json($this->response_message, 500);
+    }
 
 
 }

@@ -66,6 +66,7 @@ $router->group(['prefix' => 'v1'], function () use ($router) {
             $router->post('', 'OrderController@getOrdersByMerchantUserId');
             $router->post('add', 'OrderController@addOrder');
             $router->post('move', 'OrderController@changeStatus');
+            $router->post('upload/{id}', 'OrderController@upload');
         });
 
     });
