@@ -6,7 +6,7 @@ use App\Models\User;
 use App\Models\Product;
 use App\Models\Order;
 use App\Models\OrderList;
-use App\Models\UserInformation;
+use App\Models\AdminSetting;
 use App\Models\UserShop;
 use Illuminate\Support\Facades\Auth;
 use Laravel\Lumen\Routing\Controller as BaseController;
@@ -59,6 +59,17 @@ class OrderController extends BaseController
             $order_entity['convenience_fee'] = $request_data['convenience_fee'];
             $order_entity['note'] = $request_data['note'];
             $order = Order::create($order_entity);
+            $total = 0;
+            $delivery_charge = 0;
+            $convenience_fee = 0;
+            $user_shop = UserShop::where('id', $request_data['user_shops_id'])->first();
+            $admin_setting = AdminSetting::where('name', 'convenience_fee')->first();
+            if(!empty($user_shop)) {
+                $delivery_charge = $user_shop->delivery_charge;
+            }
+            if(!empty($admin_setting)) {
+                $convenience_fee = $admin_setting->value;
+            }
 
             if (!empty($order)) {
                 foreach($request_data as $item) {
@@ -68,8 +79,11 @@ class OrderController extends BaseController
                     $item_data['product_name'] = $item->product_name;
                     $item_data['product_price'] = $item->price;
                     $item_data['quantity'] = $item->quantity;
-                    OrderList::create($item_data);
+                    $order_list = OrderList::create($item_data);
+                    $total += $order_list->subtotal;
                 }
+                $order['total'] = $total + $delivery_charge + $convenience_fee;
+                $order->save();
                 DB::commit();
                 $this->response_message['status'] = 'success';
                 $this->response_message['message'] = 'Order is now in queue. Order number ' . $order->id;
