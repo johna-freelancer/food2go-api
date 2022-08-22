@@ -110,8 +110,8 @@ class InventoryController extends BaseController
 
     public function removeProduct($product_id) {
         try {
-            $validate = Inventory::where('product_id', $product_id)->where('user_id', Auth::id())->first();
-            if (empty($validate)) {
+            $inventory = Inventory::where('product_id', $product_id)->where('user_id', Auth::id())->first();
+            if (empty($inventory)) {
                 $this->response_message['status'] = 'failed';
                 $this->response_message['message'] = 'No product found in inventory.';
                 return response()->json($this->response_message, 409);
