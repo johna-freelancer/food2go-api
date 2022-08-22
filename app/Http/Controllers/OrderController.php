@@ -73,6 +73,7 @@ class OrderController extends BaseController
 
             if (!empty($order)) {
                 foreach($request_data as $item) {
+                    dd($item);
                     $item_data = [];
                     $item_data['order_id'] = $order->id;
                     $item_data['product_id'] = $item->product_id;
