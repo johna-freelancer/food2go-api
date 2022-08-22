@@ -108,6 +108,42 @@ class InventoryController extends BaseController
         return response()->json($this->response_message, 500);
     }
 
+    public function removeProduct($product_id) {
+        try {
+            $validate = Inventory::where('product_id', $product_id)->first();
+            if (empty($validate)) {
+                $this->response_message['status'] = 'failed';
+                $this->response_message['message'] = 'No product found in inventory.';
+                return response()->json($this->response_message, 409);
+            }
+            DB::beginTransaction();
+            if (!empty($inventory)) {
+                $inventory->delete();
+                DB::commit();
+                $this->response_message['status'] = 'success';
+                $this->response_message['message'] = 'Product has been removed in inventory.';
+                $this->response_message['result'] = $inventory;
+
+                return response()->json($this->response_message, 200);
+            }
+
+        } catch (ValidationException $e) {
+            info($e);
+            $errors = $e->errors();
+            $this->response_message['message'] = reset($errors)[0];
+
+            return response()->json($this->response_message, 400);
+
+        } catch (\Exception $e) {
+            report($e);
+
+            $this->response_message['message'] = $e->getMessage();
+        }
+        DB::rollBack();
+
+        return response()->json($this->response_message, 500);
+    }
+
     public function addProductWithQuantity(Request $request) {
         try {
             $request_data = $request->only([

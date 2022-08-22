@@ -61,6 +61,7 @@ $router->group(['prefix' => 'v1'], function () use ($router) {
             $router->post('add/{product_id}', 'InventoryController@addProduct');
             $router->post('modifyQuantity', 'InventoryController@changeQuantity');
             $router->post('add', 'InventoryController@addProductWithQuantity');
+            $router->delete('remove', 'InventoryController@removeProduct');
         });
 
         //orders
