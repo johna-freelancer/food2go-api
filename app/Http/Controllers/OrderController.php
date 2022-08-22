@@ -75,10 +75,10 @@ class OrderController extends BaseController
                 foreach($request_data['order_list'] as $item) {
                     $item_data = [];
                     $item_data['order_id'] = $order->id;
-                    $item_data['product_id'] = $item->product_id;
-                    $item_data['product_name'] = $item->product_name;
-                    $item_data['product_price'] = $item->price;
-                    $item_data['quantity'] = $item->quantity;
+                    $item_data['product_id'] = $item['product_id'];
+                    $item_data['product_name'] = $item['product_name'];
+                    $item_data['product_price'] = $item['price'];
+                    $item_data['quantity'] = $item['quantity'];
                     $order_list = OrderList::create($item_data);
                     $total += $order_list->subtotal;
                 }
