@@ -297,7 +297,7 @@ class OrderController extends BaseController
                     ->leftJoin('users as merchant', function ($join) {
                         $join->on('merchant.id', '=', 'orders.merchant_user_id');
                     })
-                    ->where(DB::raw("DATE_FORMAT(orders.created_at, '%Y-%m-%d')"), '==', $request_data['date'])
+                    ->where(DB::raw("DATE_FORMAT(orders.created_at, '%Y-%m-%d')"), '=', $request_data['date'])
                     ->whereIn('orders.status', $statusFilter)
                     ->where('customer_user_id', Auth::id())
                     ->get()->toArray();
@@ -311,7 +311,7 @@ class OrderController extends BaseController
                 array_push($orders, $output);
             }
             $this->response_message['status'] = 'success';
-            $this->response_message['message'] = 'Orders retrieved.';
+            $this->response_message['message'] = 'Transactions retrieved.';
             $this->response_message['result'] = $orders;
 
             return response()->json($this->response_message, 200);
