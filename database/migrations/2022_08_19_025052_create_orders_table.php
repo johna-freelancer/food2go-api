@@ -26,7 +26,7 @@ class CreateOrdersTable extends Migration
             $table->decimal('delivery_charge');
             $table->decimal('convenience_fee');
             $table->text('note')->nullable();
-            $table->decimal('total');
+            $table->decimal('total')->nullable();
             $table->string('status')->default('pending');
             $table->string('remarks')->nullable();
             $table->string('proof_url', 1000)->nullable();

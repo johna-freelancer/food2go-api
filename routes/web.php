@@ -64,6 +64,7 @@ $router->group(['prefix' => 'v1'], function () use ($router) {
         //orders
         $router->group(['prefix' => 'orders'], function() use($router) {
             $router->post('', 'OrderController@getOrdersByMerchantUserId');
+            $router->post('add', 'OrderController@addOrder');
         });
 
     });

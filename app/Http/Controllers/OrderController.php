@@ -33,6 +33,68 @@ class OrderController extends BaseController
 
     }
 
+
+    public function addOrder(Request $request) {
+        try {
+            $request_data = $request->only([
+                'merchant_user_id',
+                'user_shops_id',
+                'address',
+                'contact',
+                'mode_of_payment',
+                'delivery_charge',
+                'convenience_fee',
+                'note',
+                'order_list'
+            ]);
+            DB::beginTransaction();
+            $order_entity = [];
+            $order_entity['customer_user_id'] = Auth::id();
+            $order_entity['merchant_user_id'] = $request_data['merchant_user_id'];
+            $order_entity['user_shops_id'] = $request_data['user_shops_id'];
+            $order_entity['address'] = $request_data['address'];
+            $order_entity['contact'] = $request_data['contact'];
+            $order_entity['mode_of_payment'] = $request_data['mode_of_payment'];
+            $order_entity['delivery_charge'] = $request_data['delivery_charge'];
+            $order_entity['convenience_fee'] = $request_data['convenience_fee'];
+            $order_entity['note'] = $request_data['note'];
+            $order = Order::create($order_entity);
+
+            if (!empty($order)) {
+                foreach($request_data as $item) {
+                    $item_data = [];
+                    $item_data['order_id'] = $order->id;
+                    $item_data['product_id'] = $item->product_id;
+                    $item_data['product_name'] = $item->product_name;
+                    $item_data['product_price'] = $item->price;
+                    $item_data['quantity'] = $item->quantity;
+                    OrderList::create($item_data);
+                }
+                DB::commit();
+                $this->response_message['status'] = 'success';
+                $this->response_message['message'] = 'Order is now in queue. Order number ' . $order->id;
+                $this->response_message['result'] = $order;
+
+                return response()->json($this->response_message, 200);
+            }
+
+        } catch (ValidationException $e) {
+            info($e);
+            $errors = $e->errors();
+            $this->response_message['message'] = reset($errors)[0];
+
+            return response()->json($this->response_message, 400);
+
+        } catch (\Exception $e) {
+            report($e);
+
+            $this->response_message['message'] = $e->getMessage();
+        }
+        DB::rollBack();
+
+        return response()->json($this->response_message, 500);
+    }
+
     public function getOrdersByMerchantUserId(Request $request) {
         try {
             $request_data = $request->only([
