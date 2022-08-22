@@ -285,6 +285,7 @@ class OrderController extends BaseController
             $request_data = $request->only([
                 'status',
                 'date',
+                'search'
             ]);
             if (strtolower($request_data['status']) == 'all'){
                 $statusFilter = ['pending', 'preparing', 'rejected', 'outfordelivery', 'completed'];
@@ -292,10 +293,16 @@ class OrderController extends BaseController
                 $statusFilter = [strtolower($request_data['status'])];
             }
             $orders = [];
+            $searchFilter = $request_data['search'];
             $raw_orders = Order::with('users.userInformations')
                     ->select('orders.*')
                     ->leftJoin('users as merchant', function ($join) {
                         $join->on('merchant.id', '=', 'orders.merchant_user_id');
+                    })->where(function ($q) use ($searchFilter) {
+                        $q->where('orders.id', 'LIKE', '%' . ($searchFilter) . '%')
+                        ->orWhere(DB::raw("DATE_FORMAT(orders.created_at, '%Y-%m-%d')"), 'LIKE', '%' . ($searchFilter) . '%')
+                        ->orWhere('orders.status', 'LIKE', '%' . ($searchFilter) . '%')
+                        ->orWhere('orders.remarks', 'LIKE', '%' . ($searchFilter) . '%');
                     })
                     ->where(DB::raw("DATE_FORMAT(orders.created_at, '%Y-%m-%d')"), '=', $request_data['date'])
                     ->whereIn('orders.status', $statusFilter)
