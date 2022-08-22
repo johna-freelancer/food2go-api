@@ -18,7 +18,7 @@ class Order extends Model
     protected $fillable = [
         'customer_user_id', 'merchant_user_id', 'user_shops_id', 'mode_of_payment',
         'address', 'contact', 'remarks', 'delivery_charge', 'convenience_fee' , 'proof_url',
-        'note', 'total', 'status', 'changed_at_preparing', 'changed_at_delivered', 'changed_at_completed',
+        'note', 'total', 'status', 'changed_at_preparing', 'changed_at_delivered', 'changed_at_completed', 'collected_at_completed'
     ];
 
     protected $table = 'orders';

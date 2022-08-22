@@ -30,6 +30,7 @@ class CreateOrdersTable extends Migration
             $table->string('status')->default('pending');
             $table->string('remarks')->nullable();
             $table->string('proof_url', 1000)->nullable();
+            $table->dateTime('collected_at')->nullable();
             $table->dateTime('changed_at_preparing')->nullable();
             $table->dateTime('changed_at_delivered')->nullable();
             $table->dateTime('changed_at_completed')->nullable();
