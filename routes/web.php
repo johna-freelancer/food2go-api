@@ -19,7 +19,6 @@ $router->get('/', function () use ($router) {
 
 $router->group(['prefix' => 'v1'], function () use ($router) {
     $router->post('/login', 'AuthController@login');
-    $router->post('/test', 'AuthController@test');
     $router->post('/createBuyer', 'UserController@createBuyer');
     $router->group(['prefix' => 'consumer'], function() use($router) {
         $router->get('search', 'ConsumerController@searchStoreByProductOrName');
@@ -39,6 +38,7 @@ $router->group(['prefix' => 'v1'], function () use ($router) {
             $router->post('list', 'UserController@index');
             $router->post('', 'UserController@create');
             $router->post('update', 'UserController@update');
+            $router->post('upload/{id}', 'UserController@upload');
             $router->delete('{id}', 'UserController@delete');
         });
 

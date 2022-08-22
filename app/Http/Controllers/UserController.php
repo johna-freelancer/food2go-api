@@ -399,16 +399,25 @@ class UserController extends Controller
         return response()->json($this->response_message, 500);
     }
 
-    public function test(Request $request) {
+    public function upload(Request $request, $id) {
         try{
-            $file = $request->file('file');
             if($request->hasFile('file')){
                 $path = $request->file('file')->store(env('GOOGLE_DRIVE_FOLDER_ID'), 'google');
                 $url = Storage::disk('google')->url($path);
-                dd($url);
+                $user_shop = UserShop::where('id', $id)->first();
+                DB::beginTransaction();
+                if (!empty($user_shop)) {
+                    $user_shop->image_url = $url;
+                    $user_shop->save();
+                    DB::commit();
+                    $this->response_message['status'] = 'success';
+                    $this->response_message['message'] = 'File upload successfully.';
+
+                    return response()->json($this->response_message, 200);
+                }
             }else{
                 $this->response_message['status'] = 'failed';
-                $this->response_message['message'] = 'File Upload Failed.';
+                $this->response_message['message'] = 'File upload failed.';
             }
 
             return response()->json( $this->response_message);
