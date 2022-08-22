@@ -247,5 +247,36 @@ class OrderController extends BaseController
         return response()->json($this->response_message, 500);
     }
 
+    public function trackOrder($order_id) {
+        try {
+            $order = Order::where('id', $order_id)->select('status', 'remarks')
+                    ->first();
+            if (!empty($order)) {
+                if ($order->status == 'pending') {
+                    $this->response_message['message'] = 'Your order is in queue.';
+                } else if ($order->status == 'preparing') {
+                    $this->response_message['message'] = 'Your order is now preparing.';
+                } else if ($order->status == 'outfordeliver') {
+                    $this->response_message['message'] = 'Your order is out for delivery.';
+                } else if ($order->status == 'rejected') {
+                    $this->response_message['message'] = 'Your order is rejected.<br>note:' . $order->remarks;
+                } else {
+                    $this->response_message['message'] = 'This order is already delivered.';
+                }
+                $this->response_message['status'] = 'success';
+                return response()->json($this->response_message, 200);
+            } else {
+                $this->response_message['status'] = 'failed';
+                $this->response_message['message'] = 'No order found';
+                return response()->json($this->response_message, 404);
+            }
+
+        } catch (\Exception $e) {
+            report($e);
+            $this->response_message['message'] = $e->getMessage();
+        }
+
+        return response()->json($this->response_message, 500);
+    }
 
 }
