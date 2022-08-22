@@ -286,6 +286,11 @@ class OrderController extends BaseController
                 'status',
                 'date',
             ]);
+            if (strtolower($request_data['status']) == 'all'){
+                $statusFilter = ['pending', 'preparing', 'rejected', 'outfordelivery', 'completed'];
+            } else {
+                $statusFilter = [strtolower($request_data['status'])];
+            }
             $orders = [];
             $raw_orders = Order::with('users.userInformations')
                     ->select('orders.*')
@@ -293,7 +298,7 @@ class OrderController extends BaseController
                         $join->on('merchant.id', '=', 'orders.merchant_user_id');
                     })
                     ->where(DB::raw("DATE_FORMAT(orders.created_at, '%Y-%m-%d')"), '==', $request_data['date'])
-                    ->where('orders.status', $request_data['status'])
+                    ->whereIn('orders.status', $statusFilter)
                     ->where('customer_user_id', Auth::id())
                     ->get()->toArray();
 
