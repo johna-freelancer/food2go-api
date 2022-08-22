@@ -80,7 +80,7 @@ class OrderController extends BaseController
                     $item_data['product_price'] = $item['price'];
                     $item_data['quantity'] = $item['quantity'];
                     $order_list = OrderList::create($item_data);
-                    $total += $order_list->subtotal;
+                    $total += $item['price'] * $item['quantity'];
                 }
                 $order['total'] = $total;
                 $order->save();
