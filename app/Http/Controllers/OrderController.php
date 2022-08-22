@@ -279,4 +279,44 @@ class OrderController extends BaseController
         return response()->json($this->response_message, 500);
     }
 
+
+    public function getOrders(Request $request) {
+        try {
+            $request_data = $request->only([
+                'status',
+                'date',
+            ]);
+            $orders = [];
+            $raw_orders = Order::with('users.userInformations')
+                    ->select('orders.*')
+                    ->leftJoin('users as merchant', function ($join) {
+                        $join->on('merchant.id', '=', 'orders.merchant_user_id');
+                    })
+                    ->where(DB::raw("DATE_FORMAT(orders.created_at, '%Y-%m-%d')"), '==', $request_data['date'])
+                    ->where('orders.status', $request_data['status'])
+                    ->where('customer_user_id', Auth::id())
+                    ->get()->toArray();
+
+            foreach($raw_orders as $raw_order) {
+                $items = OrderList::where('orders_id', $raw_order['id'])->get();
+                $output = [
+                    'order' => $raw_order,
+                    'order_list' => $items
+                ];
+                array_push($orders, $output);
+            }
+            $this->response_message['status'] = 'success';
+            $this->response_message['message'] = 'Orders retrieved.';
+            $this->response_message['result'] = $orders;
+
+            return response()->json($this->response_message, 200);
+        } catch (\Exception $e) {
+            report($e);
+            $this->response_message['message'] = $e->getMessage();
+        }
+
+        return response()->json($this->response_message, 500);
+    }
+
+
 }

@@ -70,6 +70,7 @@ $router->group(['prefix' => 'v1'], function () use ($router) {
             $router->post('add', 'OrderController@addOrder');
             $router->post('move', 'OrderController@changeStatus');
             $router->post('upload/{id}', 'OrderController@upload');
+            $router->post('getOrders', 'OrderController@getOrders');
         });
 
     });
