@@ -77,7 +77,9 @@ class UserController extends Controller
                         ->orWhere('email', 'LIKE', '%' . ($searchFilter) . '%')
                         ->orWhere('role', 'LIKE', '%' . ($searchFilter) . '%')
                         ->orWhere('status', 'LIKE', '%' . ($searchFilter) . '%');
-                    })->get();
+                    })
+                    ->orderBy('first_name', 'asc')
+                    ->get();
 
             $this->response_message['status'] = 'success';
             $this->response_message['message'] = 'Users retrieved.';
