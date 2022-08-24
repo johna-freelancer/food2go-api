@@ -22,6 +22,13 @@ class User extends Model implements AuthenticatableContract, AuthorizableContrac
     public function userShop(){
         return $this->hasOne(UserShop::class);
     }
+
+    public function user_informations(){
+        return $this->hasOne(UserInformation::class);
+    }
+    public function user_shop(){
+        return $this->hasOne(UserShop::class);
+    }
     /**
      * The attributes that are mass assignable.
      *
