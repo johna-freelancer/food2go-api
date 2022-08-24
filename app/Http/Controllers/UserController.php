@@ -81,6 +81,7 @@ class UserController extends Controller
                     ->orderBy('first_name', 'asc')
                     ->get();
 
+
             $this->response_message['status'] = 'success';
             $this->response_message['message'] = 'Users retrieved.';
             $this->response_message['result'] = $users;
