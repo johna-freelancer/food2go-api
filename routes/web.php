@@ -34,10 +34,10 @@ $router->group(['prefix' => 'v1'], function () use ($router) {
         });
         // User
         $router->group(['prefix' => 'user'], function() use($router) {
-            $router->get('getall', 'UserController@getall');
             $router->get('getRole', 'UserController@getRole');
             $router->get('{id}', 'UserController@get');
             $router->get('', 'UserController@me');
+            $router->post('getall', 'UserController@getall');
             $router->post('list', 'UserController@index');
             $router->post('', 'UserController@create');
             $router->post('update', 'UserController@update');
