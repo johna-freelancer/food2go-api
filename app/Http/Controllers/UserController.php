@@ -63,6 +63,32 @@ class UserController extends Controller
         return response()->json($this->response_message, 500);
     }
 
+    public function getall($keyword) {
+        try {
+            $searchFilter = $keyword;
+            $users = User::
+                where(function ($q) use ($searchFilter) {
+                    $q->where('id', 'LIKE', '%' . ($searchFilter) . '%')
+                        ->orWhere('first_name', 'LIKE', '%' . ($searchFilter) . '%')
+                        ->orWhere('last_name', 'LIKE', '%' . ($searchFilter) . '%')
+                        ->orWhere('email', 'LIKE', '%' . ($searchFilter) . '%')
+                        ->orWhere('role', 'LIKE', '%' . ($searchFilter) . '%')
+                        ->orWhere('status', 'LIKE', '%' . ($searchFilter) . '%');
+                    });
+
+            $this->response_message['status'] = 'success';
+            $this->response_message['message'] = 'Users retrieved.';
+            $this->response_message['result'] = $users;
+
+            return response()->json($this->response_message, 200);
+        } catch (\Exception $e) {
+            report($e);
+            $this->response_message['message'] = $e->getMessage();
+        }
+
+        return response()->json($this->response_message, 500);
+    }
+
     public function getRole() {
         try {
             $userRole = User::where('id',  Auth::id())->select('role')->first();
