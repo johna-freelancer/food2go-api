@@ -69,7 +69,7 @@ class UserController extends Controller
                 'search'
             ]);
             $searchFilter = $request_data['search'];
-            $users = User::with(['user_inormations', 'user_shop'])
+            $users = User::with(['user_informations', 'user_shop'])
                 ->where(function ($q) use ($searchFilter) {
                     $q->where('id', 'LIKE', '%' . ($searchFilter) . '%')
                         ->orWhere('first_name', 'LIKE', '%' . ($searchFilter) . '%')
