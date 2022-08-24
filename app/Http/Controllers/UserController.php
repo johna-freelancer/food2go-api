@@ -63,9 +63,12 @@ class UserController extends Controller
         return response()->json($this->response_message, 500);
     }
 
-    public function getall($keyword) {
+    public function getall(Request $request) {
         try {
-            $searchFilter = $keyword;
+            $request_data = $request->only([
+                'search'
+            ]);
+            $searchFilter = $request_data['search'];
             $users = User::
                 where(function ($q) use ($searchFilter) {
                     $q->where('id', 'LIKE', '%' . ($searchFilter) . '%')
