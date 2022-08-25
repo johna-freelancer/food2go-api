@@ -31,7 +31,11 @@ class ConsumerController extends Controller
 
 
     }
+    public function test(){
+        $this->sendNewOrderEvent('New order with order number: ');
+        return '';
 
+    }
     public function searchStoreByProductOrName (Request $request) {
         try {
             $keyword = $request->query('keyword');
