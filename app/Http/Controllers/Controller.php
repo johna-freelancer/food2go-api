@@ -28,7 +28,7 @@ class Controller extends BaseController
         return TRIM(preg_replace('/[^a-zA-Z0-9]/', '',$keyword));
     }
 
-    protected function sendNewOrderEvent($data) {
+    protected function sendNewOrderEvent($msg) {
 
         $options = array(
             'cluster' => 'ap1',
@@ -42,7 +42,7 @@ class Controller extends BaseController
             $options
           );
 
-          $data['message'] = $data;
+          $data['message'] = $msg;
           $pusher->trigger(env('CHANNEL_NAME'), env('EVENT_NAME'), $data);
     }
 }
