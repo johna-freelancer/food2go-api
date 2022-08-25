@@ -461,4 +461,28 @@ class UserController extends Controller
         DB::rollBack();
         return response()->json($this->response_message, 500);
     }
+
+    public function getUserShop($id) {
+        try {
+            $userShop = UserShop::where('id', $id)->first();
+
+            if (empty($userShop)) {
+                $this->response_message['status'] = 'failed';
+                $this->response_message['message'] = 'User shop not found.';
+                $this->response_message['result'] = $userShop;
+
+                return response()->json($this->response_message, 404);
+            }
+            $this->response_message['status'] = 'success';
+            $this->response_message['message'] = 'User shop data retrieved.';
+            $this->response_message['result'] = $userShop;
+
+            return response()->json($this->response_message, 200);
+        } catch (\Exception $e) {
+            report($e);
+            $this->response_message['message'] = $e->getMessage();
+        }
+
+        return response()->json($this->response_message, 500);
+    }
 }
