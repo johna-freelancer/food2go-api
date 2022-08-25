@@ -5,7 +5,7 @@
         'type' => 'project',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
-        'reference' => '35b9fc74b63c0841ec84bee4c634037112bec99d',
+        'reference' => '2efa26c92c8a446791d88c1a249e5b226bc467b1',
         'name' => 'laravel/lumen',
         'dev' => true,
     ),
@@ -430,7 +430,7 @@
             'type' => 'project',
             'install_path' => __DIR__ . '/../../',
             'aliases' => array(),
-            'reference' => '35b9fc74b63c0841ec84bee4c634037112bec99d',
+            'reference' => '2efa26c92c8a446791d88c1a249e5b226bc467b1',
             'dev_requirement' => false,
         ),
         'laravel/lumen-framework' => array(
@@ -608,6 +608,15 @@
             'install_path' => __DIR__ . '/../paragonie/random_compat',
             'aliases' => array(),
             'reference' => '996434e5492cb4c3edcb9168db6fbb1359ef965a',
+            'dev_requirement' => false,
+        ),
+        'paragonie/sodium_compat' => array(
+            'pretty_version' => 'v1.17.1',
+            'version' => '1.17.1.0',
+            'type' => 'library',
+            'install_path' => __DIR__ . '/../paragonie/sodium_compat',
+            'aliases' => array(),
+            'reference' => 'ac994053faac18d386328c91c7900f930acadf1e',
             'dev_requirement' => false,
         ),
         'phar-io/manifest' => array(
@@ -832,8 +841,8 @@
         'psr/log-implementation' => array(
             'dev_requirement' => false,
             'provided' => array(
-                0 => '1.0|2.0',
-                1 => '1.0.0 || 2.0.0 || 3.0.0',
+                0 => '1.0.0 || 2.0.0 || 3.0.0',
+                1 => '1.0|2.0',
             ),
         ),
         'psr/simple-cache' => array(
@@ -858,6 +867,15 @@
             'install_path' => __DIR__ . '/../psy/psysh',
             'aliases' => array(),
             'reference' => 'f455acf3645262ae389b10e9beba0c358aa6994e',
+            'dev_requirement' => false,
+        ),
+        'pusher/pusher-php-server' => array(
+            'pretty_version' => '7.0.2',
+            'version' => '7.0.2.0',
+            'type' => 'library',
+            'install_path' => __DIR__ . '/../pusher/pusher-php-server',
+            'aliases' => array(),
+            'reference' => 'af3eeaefc0c7959f5b3852f0a4dd5547245d33df',
             'dev_requirement' => false,
         ),
         'ralouphie/getallheaders' => array(

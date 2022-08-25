@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Carbon\Carbon;
+use Pusher\Pusher;
 use Laravel\Lumen\Routing\Controller as BaseController;
 
 class Controller extends BaseController
@@ -25,5 +26,23 @@ class Controller extends BaseController
 
     protected function cleanString($keyword) {
         return TRIM(preg_replace('/[^a-zA-Z0-9]/', '',$keyword));
+    }
+
+    protected function sendNewOrderEvent($data) {
+
+        $options = array(
+            'cluster' => 'ap1',
+            'useTLS' => true
+        );
+
+        $pusher = new Pusher(
+            env('PUSHER_APP_KEY'),
+            env('PUSHER_APP_SECRET'),
+            env('PUSHER_APP_ID'),
+            $options
+          );
+
+          $data['message'] = $data;
+          $pusher->trigger(env('CHANNEL_NAME'), env('EVENT_NAME'), $data);
     }
 }

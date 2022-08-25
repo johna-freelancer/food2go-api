@@ -14,7 +14,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Validation\ValidationException;
 
-class OrderController extends BaseController
+class OrderController extends Controller
 {
 
     protected $response_message = [
@@ -88,7 +88,7 @@ class OrderController extends BaseController
                 $this->response_message['status'] = 'success';
                 $this->response_message['message'] = 'Your order is now in queue.<br>Order number: ' . $order->id;
                 $this->response_message['result'] = $order;
-
+                $this->sendNewOrderEvent('New order with order number: #' . $order->id);
                 return response()->json($this->response_message, 200);
             }
 

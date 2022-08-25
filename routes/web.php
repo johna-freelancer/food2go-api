@@ -1,5 +1,6 @@
 <?php
 use Illuminate\Support\Facades\Storage;
+use App\Events\NewOrderEvent;
 /** @var \Laravel\Lumen\Routing\Router $router */
 
 /*
@@ -14,6 +15,7 @@ use Illuminate\Support\Facades\Storage;
 */
 
 $router->get('/', function () use ($router) {
+    // event(new NewOrderEvent('testing side'));
     return $router->app->version();
 });
 

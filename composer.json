@@ -6,12 +6,13 @@
     "type": "project",
     "require": {
         "php": "^7.3|^8.0",
+        "ext-sodium": "*",
         "flipbox/lumen-generator": "^9.1",
         "google/apiclient": "^2.11",
         "laravel/lumen-framework": "^8.0",
         "nao-pon/flysystem-google-drive": "~1.1",
-        "tymon/jwt-auth": "1.0.x-dev",
-        "ext-sodium": "*"
+        "pusher/pusher-php-server": "^7.0",
+        "tymon/jwt-auth": "1.0.x-dev"
     },
     "require-dev": {
         "fakerphp/faker": "^1.9.1",
