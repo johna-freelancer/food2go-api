@@ -31,25 +31,6 @@ class ConsumerController extends Controller
 
 
     }
-    public function test(){
-        try {
-                 $this->sendNewOrderEvent('New order with order number: ');
-                 $this->response_message['message'] = 'sucess';
-                return response()->json($this->response_message, 200);
-
-        } catch (ValidationException $e) {
-            info($e);
-            $errors = $e->errors();
-            $this->response_message['message'] = reset($errors)[0];
-
-            return response()->json($this->response_message, 400);
-
-        } catch (\Exception $e) {
-            report($e);
-
-            $this->response_message['message'] = $e->getMessage();
-        }
-    }
 
     public function searchStoreByProductOrName (Request $request) {
         try {

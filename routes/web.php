@@ -26,7 +26,6 @@ $router->group(['prefix' => 'v1'], function () use ($router) {
         $router->get('search', 'ConsumerController@searchStoreByProductOrName');
         $router->get('products/{store_id}', 'ConsumerController@getAllAvailableProductByStoreId');
         $router->get('track/{order_id}', 'OrderController@trackOrder');
-        $router->get('test', 'ConsumerController@test');
 
     });
     $router->group(['middleware' => 'auth'], function() use($router) {
