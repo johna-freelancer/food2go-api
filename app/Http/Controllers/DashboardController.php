@@ -55,6 +55,9 @@ class DashboardController extends Controller
                         $amount += $order->convenience_fee;
                         array_push($data, $order->convenience_fee);
                         array_push($labels, $date);
+                    } else {
+                        array_push($data, 0);
+                        array_push($labels, $date);
                     }
                 }
                 $this->response_message['status'] = 'success';
@@ -84,6 +87,9 @@ class DashboardController extends Controller
                     if (!empty($order)) {
                         $amount += $order->convenience_fee;
                         array_push($data, $order->convenience_fee);
+                        array_push($labels, $date);
+                    } else {
+                        array_push($data, 0);
                         array_push($labels, $date);
                     }
                 }
