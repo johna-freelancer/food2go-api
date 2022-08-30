@@ -81,6 +81,7 @@ class DashboardController extends Controller
                 $data = [];
                 $labels = [];
                 foreach($periods as $date) {
+                    $date = $date->toDateString();
                     $order = Order::where('collected_at', null)
                     ->where(DB::raw("DATE_FORMAT(orders.created_at, '%Y-%m-%d')"), $date)
                     ->where('status', 'completed')
