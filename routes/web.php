@@ -81,6 +81,7 @@ $router->group(['prefix' => 'v1'], function () use ($router) {
          //dashboard
         $router->group(['prefix' => 'dashboard'], function() use($router) {
             $router->post('getTotalCollectable', 'DashboardController@getTotalCollectableAmount');
+            $router->post('getTotalCollected', 'DashboardController@getTotalCollectedAmount');
         });
 
 

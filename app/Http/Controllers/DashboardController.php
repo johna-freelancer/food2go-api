@@ -143,5 +143,112 @@ class DashboardController extends Controller
     }
 
 
+    public function getTotalCollectedAmount(Request $request) {
+        try {
+
+            $request_data = $request->only([
+                'range'
+            ]);
+
+            if ($request_data['range'] == '30days') {
+                $periods = CarbonPeriod::create(Carbon::now()->subDays(30)->toDateString(), Carbon::now()->subDays(1)->toDateString());
+                $amount = 0;
+                $data = [];
+                $labels = [];
+                foreach($periods as $date) {
+                    $date = $date->toDateString();
+                    $order = Order::where('collected_at', '!=', null)
+                    ->where(DB::raw("DATE_FORMAT(collected_at, '%Y-%m-%d')"), $date)
+                    ->where('status', 'completed')
+                    ->first();
+                    if (!empty($order)) {
+                        $amount += $order->convenience_fee;
+                        array_push($data, $order->convenience_fee);
+                        array_push($labels, $date);
+                    } else {
+                        array_push($data, 0);
+                        array_push($labels, $date);
+                    }
+                }
+                $this->response_message['status'] = 'success';
+                $this->response_message['message'] = 'Total Collected Amount Retrieved.';
+                $this->response_message['result'] = [
+                    'amount' => $amount,
+                    'labels' => $labels,
+                    'series' => [
+                            [
+                                'data' => $data,
+                                'name' => 'Total Collected Amount'
+                            ]
+                        ]
+                ];
+
+                return response()->json($this->response_message, 200);
+            } else if ($request_data['range'] == '7days') {
+                $periods = CarbonPeriod::create(Carbon::now()->subDays(7)->toDateString(), Carbon::now()->subDays(1)->toDateString());
+                $amount = 0;
+                $data = [];
+                $labels = [];
+                foreach($periods as $date) {
+                    $date = $date->toDateString();
+                    $order = Order::where('collected_at', '!=', null)
+                    ->where(DB::raw("DATE_FORMAT(collected_at, '%Y-%m-%d')"), $date)
+                    ->where('status', 'completed')
+                    ->first();
+                    if (!empty($order)) {
+                        $amount += $order->convenience_fee;
+                        array_push($data, $order->convenience_fee);
+                        array_push($labels, $date);
+                    } else {
+                        array_push($data, 0);
+                        array_push($labels, $date);
+                    }
+                }
+                $this->response_message['status'] = 'success';
+                $this->response_message['message'] = 'Total Collected Amount Retrieved.';
+                $this->response_message['result'] = [
+                    'amount' => $amount,
+                    'labels' => $labels,
+                    'series' => [
+                            [
+                                'data' => $data,
+                                'name' => 'Total Collected Amount'
+                            ]
+                        ]
+                ];
+
+                return response()->json($this->response_message, 200);
+            } else { //today
+                $orders = Order::where('collected_at', '!=', null)
+                ->where(DB::raw("DATE_FORMAT(collected_at, '%Y-%m-%d')"), date('y-m-d'))
+                ->where('status', 'completed')
+                ->get();
+                $amount = 0;
+                foreach($orders as $order) {
+                    $amount += $order->convenience_fee;
+                }
+                $this->response_message['status'] = 'success';
+                $this->response_message['message'] = 'Total Collected Amount Retrieved.';
+                $this->response_message['result'] = [
+                    'amount' => $amount,
+                    'labels' => ['Today'],
+                    'series' => [
+                            [
+                                'data' => [$amount],
+                                'name' => 'Total Collected Amount'
+                            ]
+                        ]
+                ];
+
+                return response()->json($this->response_message, 200);
+            }
+
+            return [];
+        }catch (\Exception $e) {
+            report($e);
+            $this->response_message['status'] = 'failed';
+            $this->response_message['message'] = $e->getMessage();
+        }
+    }
 
 }
