@@ -251,4 +251,34 @@ class DashboardController extends Controller
         }
     }
 
+
+    public function getActiveMerchantCount(Request $request) {
+        try {
+
+            $users = User::where('status', 'active')
+            ->where('role', 'client')
+            ->get();
+
+            $this->response_message['status'] = 'success';
+            $this->response_message['message'] = 'Number of active merchant retrieved.';
+            $this->response_message['result'] = [
+                'amount' => count($users),
+                'labels' => ['Today'],
+                'series' => [
+                        [
+                            'data' => [count($users)],
+                            'name' => 'Number of Active Merchants'
+                        ]
+                    ]
+            ];
+
+            return response()->json($this->response_message, 200);
+
+        }catch (\Exception $e) {
+            report($e);
+            $this->response_message['status'] = 'failed';
+            $this->response_message['message'] = $e->getMessage();
+        }
+    }
+
 }
