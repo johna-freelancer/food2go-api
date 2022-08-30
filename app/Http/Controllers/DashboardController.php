@@ -14,7 +14,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Validation\ValidationException;
 use Carbon\Carbon;
-
+use Carbon\CarbonPeriod;
 class DashboardController extends Controller
 {
 
@@ -42,9 +42,65 @@ class DashboardController extends Controller
             ]);
 
             if ($request_data['range'] == '30days') {
+                $periods = CarbonPeriod::create(Carbon::now()->subDays(30)->toDateString(), Carbon::now()->subDays(1)->toDateString());
+                $amount = 0;
+                $data = [];
+                $labels = [];
+                foreach($periods as $date) {
+                    $order = Order::where('collected_at', null)
+                    ->where(DB::raw("DATE_FORMAT(orders.created_at, '%Y-%m-%d')"), $date)
+                    ->where('status', 'completed')
+                    ->first();
+                    if (!empty($order)) {
+                        $amount += $order->convenience_fee;
+                        array_push($data, $order->convenience_fee);
+                        array_push($labels, $date);
+                    }
+                }
+                $this->response_message['status'] = 'success';
+                $this->response_message['message'] = 'Total Collectable Amount Retrieved.';
+                $this->response_message['result'] = [
+                    'amount' => $amount,
+                    'labels' => $labels,
+                    'series' => [
+                            [
+                                'data' => $data,
+                                'name' => 'Total Collectable Amount'
+                            ]
+                        ]
+                ];
 
+                return response()->json($this->response_message, 200);
             } else if ($request_data['range'] == '7days') {
+                $periods = CarbonPeriod::create(Carbon::now()->subDays(7)->toDateString(), Carbon::now()->subDays(1)->toDateString());
+                $amount = 0;
+                $data = [];
+                $labels = [];
+                foreach($periods as $date) {
+                    $order = Order::where('collected_at', null)
+                    ->where(DB::raw("DATE_FORMAT(orders.created_at, '%Y-%m-%d')"), $date)
+                    ->where('status', 'completed')
+                    ->first();
+                    if (!empty($order)) {
+                        $amount += $order->convenience_fee;
+                        array_push($data, $order->convenience_fee);
+                        array_push($labels, $date);
+                    }
+                }
+                $this->response_message['status'] = 'success';
+                $this->response_message['message'] = 'Total Collectable Amount Retrieved.';
+                $this->response_message['result'] = [
+                    'amount' => $amount,
+                    'labels' => $labels,
+                    'series' => [
+                            [
+                                'data' => $data,
+                                'name' => 'Total Collectable Amount'
+                            ]
+                        ]
+                ];
 
+                return response()->json($this->response_message, 200);
             } else { //today
                 $orders = Order::where('collected_at', null)
                 ->where(DB::raw("DATE_FORMAT(orders.created_at, '%Y-%m-%d')"), date('y-m-d'))
@@ -55,7 +111,7 @@ class DashboardController extends Controller
                     $amount += $order->convenience_fee;
                 }
                 $this->response_message['status'] = 'success';
-                $this->response_message['message'] = 'Store successfully retrieved.';
+                $this->response_message['message'] = 'Total Collectable Amount Retrieved.';
                 $this->response_message['result'] = [
                     'amount' => $amount,
                     'labels' => ['Today'],
