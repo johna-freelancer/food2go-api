@@ -296,10 +296,10 @@ class DashboardController extends Controller
                 ->get();
                 if(!empty($order)){
                     $amount += count($order);
-                    array_push($data, count($order));
+                    array_push($data, ['x' => $date, 'y' => count($order)]);
                     array_push($labels, $date);
                 } else {
-                    array_push($data, 0);
+                    array_push($data, ['x' => $date, 'y' => 0]);
                     array_push($labels, $date);
                 }
             }
@@ -307,7 +307,6 @@ class DashboardController extends Controller
             $this->response_message['message'] = 'Number of Completed Orders';
             $this->response_message['result'] = [
                 'amount' => $amount,
-                'labels' => $labels,
                 'series' => [
                         [
                             'data' => $data,
