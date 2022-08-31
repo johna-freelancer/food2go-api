@@ -83,6 +83,7 @@ $router->group(['prefix' => 'v1'], function () use ($router) {
             $router->post('getTotalCollectable', 'DashboardController@getTotalCollectableAmount');
             $router->post('getTotalCollected', 'DashboardController@getTotalCollectedAmount');
             $router->get('getActiveMerchantCount', 'DashboardController@getActiveMerchantCount');
+            $router->get('getNumberOfCompletedOrders', 'DashboardController@getNumberOfCompletedOrders');
         });
 
 

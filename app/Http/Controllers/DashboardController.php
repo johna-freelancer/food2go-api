@@ -281,4 +281,42 @@ class DashboardController extends Controller
         }
     }
 
+
+    public function getNumberOfCompletedOrders() {
+        try {
+
+            $periods = CarbonPeriod::create(Carbon::Now()->startOfMonth()->toDateString(), Carbon::Now()->endOfMonth()->toDateString());
+            $amount = 0;
+            $data = [];
+            $labels = [];
+            foreach($periods as $date) {
+                $date = $date->toDateString();
+                $order = Order::where(DB::raw("DATE_FORMAT(orders.changed_at_completed, '%Y-%m-%d')"), $date)
+                ->where('status', 'completed')
+                ->get();
+                $amount += count($order);
+                array_push($data, count($order));
+                array_push($labels, $date);
+            }
+            $this->response_message['status'] = 'success';
+            $this->response_message['message'] = 'Number of Completed Orders';
+            $this->response_message['result'] = [
+                'amount' => $amount,
+                'labels' => $labels,
+                'series' => [
+                        [
+                            'data' => $data,
+                            'name' => 'Number of Completed Orders'
+                        ]
+                    ]
+            ];
+
+            return response()->json($this->response_message, 200);
+        }catch (\Exception $e) {
+            report($e);
+            $this->response_message['status'] = 'failed';
+            $this->response_message['message'] = $e->getMessage();
+        }
+    }
+
 }
