@@ -71,12 +71,12 @@ $router->group(['prefix' => 'v1'], function () use ($router) {
 
         //orders
         $router->group(['prefix' => 'orders'], function() use($router) {
+            $router->get('getOrder/{order_id}', 'OrderController@getOrderById');
             $router->post('', 'OrderController@getOrdersByMerchantUserId');
             $router->post('add', 'OrderController@addOrder');
             $router->post('move', 'OrderController@changeStatus');
             $router->post('upload/{id}', 'OrderController@upload');
             $router->post('getOrders', 'OrderController@getOrders');
-            $router->post('getOrder/{order_id}', 'OrderCntroller@getOrderById');
         });
 
          //dashboard
