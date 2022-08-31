@@ -294,9 +294,14 @@ class DashboardController extends Controller
                 $order = Order::where(DB::raw("DATE_FORMAT(orders.changed_at_completed, '%Y-%m-%d')"), $date)
                 ->where('status', 'completed')
                 ->get();
-                $amount += count($order);
-                array_push($data, count($order));
-                array_push($labels, $date);
+                if(!empty($order)){
+                    $amount += count($order);
+                    array_push($data, count($order));
+                    array_push($labels, $date);
+                } else {
+                    array_push($data, 0);
+                    array_push($labels, $date);
+                }
             }
             $this->response_message['status'] = 'success';
             $this->response_message['message'] = 'Number of Completed Orders';
