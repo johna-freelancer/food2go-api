@@ -304,10 +304,12 @@ class DashboardController extends Controller
                 }
             }
             $res = [];
-            $res['current-month'] = [
-                                        'data' => $data,
-                                        'name' => 'Number of Completed Orders'
-                                    ];
+            $resitem = [];
+            array_push($resitem, [
+                                    'data' => $data,
+                                    'name' => 'Number of Completed Orders'
+                                ]);
+            $res['current-month'] = $resitem;
             $this->response_message['status'] = 'success';
             $this->response_message['message'] = 'Number of Completed Orders';
             $this->response_message['result'] = [
