@@ -330,5 +330,36 @@ class OrderController extends Controller
         return response()->json($this->response_message, 500);
     }
 
+    public function getOrderById($order_id) {
+        try {
+            $order = Order::with('users.userInformations')
+                    ->where('id', $order_id)
+                    ->first();
+
+            if (!empty($order)) {
+                $items = OrderList::where('orders_id', $order->id)->get();
+                $output = [
+                    'order' => $order,
+                    'order_list' => $items
+                ];
+                $this->response_message['status'] = 'success';
+                $this->response_message['message'] = 'Orders retrieved.';
+                $this->response_message['result'] = $output;
+            } else {
+                $this->response_message['status'] = 'failed';
+                $this->response_message['message'] = 'No order found.';
+                return response()->json($this->response_message, 404);
+            }
+
+
+            return response()->json($this->response_message, 200);
+        } catch (\Exception $e) {
+            report($e);
+            $this->response_message['message'] = $e->getMessage();
+        }
+
+        return response()->json($this->response_message, 500);
+    }
+
 
 }

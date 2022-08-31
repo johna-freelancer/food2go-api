@@ -76,6 +76,7 @@ $router->group(['prefix' => 'v1'], function () use ($router) {
             $router->post('move', 'OrderController@changeStatus');
             $router->post('upload/{id}', 'OrderController@upload');
             $router->post('getOrders', 'OrderController@getOrders');
+            $router->post('getOrder/{order_id}', 'OrderCntroller@getOrderById');
         });
 
          //dashboard
