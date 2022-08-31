@@ -303,16 +303,16 @@ class DashboardController extends Controller
                     array_push($labels, $date);
                 }
             }
+            $res = [];
+            $res['current-month'] = [
+                                        'data' => $data,
+                                        'name' => 'Number of Completed Orders'
+                                    ];
             $this->response_message['status'] = 'success';
             $this->response_message['message'] = 'Number of Completed Orders';
             $this->response_message['result'] = [
                 'amount' => $amount,
-                'series' => [
-                        [
-                            'data' => $data,
-                            'name' => 'Number of Completed Orders'
-                        ]
-                    ]
+                'series' => $res
             ];
 
             return response()->json($this->response_message, 200);
