@@ -41,7 +41,7 @@ class OrderController extends Controller
                     ->leftJoin('users as customer', function ($join) {
                         $join->on('customer.id', '=', 'orders.customer_user_id');
                     })
-                    ->where('id', $order_id)
+                    ->where('orders.id', $order_id)
                     ->first();
 
             if (!empty($order)) {
