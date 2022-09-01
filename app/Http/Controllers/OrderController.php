@@ -35,7 +35,13 @@ class OrderController extends Controller
 
     public function getOrderById($order_id) {
         try {
-            $order = Order::where('id', $order_id)
+
+            $order = Order::with('users.userInformations')
+                    ->select('orders.*')
+                    ->leftJoin('users as customer', function ($join) {
+                        $join->on('customer.id', '=', 'orders.customer_user_id');
+                    })
+                    ->where('id', $order_id)
                     ->first();
 
             if (!empty($order)) {
