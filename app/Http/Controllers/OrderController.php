@@ -291,12 +291,12 @@ class OrderController extends Controller
                     $this->response_message['message'] = 'Your order is in queue.';
                 } else if ($order->status == 'preparing') {
                     $this->response_message['message'] = 'Your order is now preparing.';
-                } else if ($order->status == 'outfordeliver') {
+                } else if ($order->status == 'outfordelivery') {
                     $this->response_message['message'] = 'Your order is out for delivery.';
                 } else if ($order->status == 'rejected') {
                     $this->response_message['message'] = 'Your order is rejected.<br>note:' . $order->remarks;
                 } else {
-                    $this->response_message['message'] = 'This order is already delivered.';
+                    $this->response_message['message'] = 'This order is completed.';
                 }
                 $this->response_message['status'] = 'success';
                 return response()->json($this->response_message, 200);
