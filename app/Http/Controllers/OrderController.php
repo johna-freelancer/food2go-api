@@ -13,6 +13,7 @@ use Laravel\Lumen\Routing\Controller as BaseController;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Validation\ValidationException;
+use Carbon\Carbon;
 
 class OrderController extends Controller
 {
@@ -219,10 +220,13 @@ class OrderController extends Controller
                     $order->remarks = $remarks;
                     $response_message['message'] = "Order #".$order_id.' was rejected.';
                 } else if ($status == 'preparing') {
+                    $order->changed_at_preparing = Carbon::now();
                     $response_message['message'] = "Order #".$order_id.' is now preparing.';
                 } else if ($status == 'outfordelivery') {
+                    $order->changed_at_delivered = Carbon::now();
                     $response_message['message'] = "Order #".$order_id.' is out for delivery.';
                 } else {
+                    $order->changed_at_completed = Carbon::now();
                     $response_message['message'] = "Order #".$order_id.' is complete.';
                 }
                 $order->status = $status;
