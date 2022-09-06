@@ -10,7 +10,8 @@
         "google/apiclient": "^2.11",
         "laravel/lumen-framework": "^8.0",
         "nao-pon/flysystem-google-drive": "~1.1",
-        "tymon/jwt-auth": "1.0.x-dev"
+        "tymon/jwt-auth": "1.0.x-dev",
+        "ext-sodium": "*"
     },
     "require-dev": {
         "fakerphp/faker": "^1.9.1",
