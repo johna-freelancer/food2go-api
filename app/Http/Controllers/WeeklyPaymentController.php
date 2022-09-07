@@ -99,6 +99,9 @@ class WeeklyPaymentController extends Controller
                 foreach($orders as $order) {
                     $amount += $order->convenience_fee != null ? $order->convenience_fee : 0;
                 }
+                if ($amount == 0) {
+                    continue;
+                }
                 $data[$merchant->id] = [
                     'amount' => $amount,
                     'date_from' => $request_data['from'],
