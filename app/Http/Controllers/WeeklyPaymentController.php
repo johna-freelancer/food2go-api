@@ -85,7 +85,7 @@ class WeeklyPaymentController extends Controller
         try {
             DB::beginTransaction();
 
-            $uncollected_orders = Order::where('collected_at', null)->groupBy('merchant_user_id')->get();
+            $uncollected_orders = Order::get();
             dd($uncollected_orders);
 
             $request_data['merchant_agreed_at'] = Carbon::now();
