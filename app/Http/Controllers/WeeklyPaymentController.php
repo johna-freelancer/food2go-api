@@ -48,7 +48,7 @@ class WeeklyPaymentController extends Controller
                 'status'
             ]);
             if (strtolower($request_data['status']) == 'all'){
-                $statusFilter = ['pending', 'approved'];
+                $statusFilter = ['pending', 'merchant_approved', 'admin_approved'];
             } else {
                 $statusFilter = [strtolower($request_data['status'])];
             }
@@ -81,24 +81,57 @@ class WeeklyPaymentController extends Controller
         return response()->json($this->response_message, 500);
     }
 
-    public function create() {
+    public function create(Request $request) {
         try {
-            DB::beginTransaction();
-
-            $uncollected_orders = Order::get();
-            dd($uncollected_orders);
-
-            $request_data['merchant_agreed_at'] = Carbon::now();
-            $weekly_payment = WeeklyPayment::create($request_data);
-
-            if (!empty($weekly_payment)) {
-                DB::commit();
-                $this->response_message['status'] = 'success';
-                $this->response_message['message'] = 'Payment report has been submitted. Please wait for the admin to verify.';
-                $this->response_message['result'] = $weekly_payment;
-
-                return response()->json($this->response_message, 200);
+            $request_data = $request->only([
+                'from',
+                'to'
+            ]);
+            $merchants = User::select('id', 'full_name')->where('role', 'merchant')->get();
+            $data = [];
+            foreach ($merchants as $merchant) {
+                $amount = 0;
+                $orders = Order::where('merchant_user_id', $merchant->id)
+                ->where(function ($q) use ($request_data) {
+                    $q->where(DB::raw("DATE_FORMAT(orders.changed_at_completed, '%Y-%m-%d')"), '>=', $request_data['from'])
+                        ->where(DB::raw("DATE_FORMAT(orders.changed_at_completed, '%Y-%m-%d')"), '<=', $request_data['to']);
+                })->where('collected_at', null)->get();
+                foreach($orders as $order) {
+                    $amount += $order->convenience_fee != null ? $order->convenience_fee : 0;
+                }
+                $data[$merchant->id] = [
+                    'amount' => $amount,
+                    'date_from' => $request_data['from'],
+                    'to' => $request_data['to'],
+                    'merchant_name' => $merchant->full_name,
+                    'merchant_id' => $merchant->id
+                ];
             }
+
+
+            DB::beginTransaction();
+            $logs = [];
+            foreach($data as $entity) {
+                $weekly_payment = WeeklyPayment::create($entity);
+                if (empty($weekly_payment)) {
+                    array_push($logs, [
+                        'merchant' => $entity,
+                        'not sent'
+                    ]);
+                } else {
+                    array_push($logs, [
+                        'merchant' => $entity,
+                        'sent'
+                    ]);
+                }
+            }
+
+            DB::commit();
+            $this->response_message['status'] = 'success';
+            $this->response_message['message'] = 'Payment report has been sent to all merchant.';
+            $this->response_message['logs'] = $logs;
+
+            return response()->json($this->response_message, 200);
 
         } catch (ValidationException $e) {
             info($e);
