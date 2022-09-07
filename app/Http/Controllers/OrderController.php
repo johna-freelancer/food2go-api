@@ -154,6 +154,13 @@ class OrderController extends Controller
                 'date_to',
                 'search'
             ]);
+
+            if (strtolower($request_data['status']) == 'all'){
+                $statusFilter = ['pending', 'preparing', 'rejected', 'outfordelivery', 'completed'];
+            } else {
+                $statusFilter = [strtolower($request_data['status'])];
+            }
+
             $orders = [];
             $searchFilter = $request_data['search'];
             $raw_orders = Order::with('users.userInformations')
@@ -168,7 +175,7 @@ class OrderController extends Controller
                     })
                     ->where(DB::raw("DATE_FORMAT(orders.created_at, '%Y-%m-%d')"), '>=', $request_data['date_from'])
                     ->where(DB::raw("DATE_FORMAT(orders.created_at, '%Y-%m-%d')"), '<=', $request_data['date_to'])
-                    ->where('orders.status', $request_data['status'])
+                    ->whereIn('orders.status', $statusFilter)
                     ->orderBy('id', 'desc')
                     ->get()->toArray();
 
