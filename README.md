@@ -13,7 +13,7 @@ Documentation for the framework can be found on the [Lumen website](https://lume
 
 ## Contributing
 
-Thank you for considering contributing to Lumen! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+asddasdadsadsaasasadsaasd [Laravel documentation](https://laravel.com/docs/contributions).
 
 ## Security Vulnerabilities
 
