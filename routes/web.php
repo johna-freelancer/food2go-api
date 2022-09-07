@@ -22,7 +22,7 @@ $router->get('/', function () use ($router) {
 $router->group(['prefix' => 'v1'], function () use ($router) {
     $router->post('/login', 'AuthController@login');
     $router->post('/createBuyer', 'UserController@createBuyer');
-
+    $router->post('/send', 'WeeklyPaymentController@create');
     $router->group(['prefix' => 'consumer'], function() use($router) {
         $router->get('search', 'ConsumerController@searchStoreByProductOrName');
         $router->get('products/{store_id}', 'ConsumerController@getAllAvailableProductByStoreId');
@@ -85,6 +85,12 @@ $router->group(['prefix' => 'v1'], function () use ($router) {
             $router->post('getTotalCollected', 'DashboardController@getTotalCollectedAmount');
             $router->get('getActiveMerchantCount', 'DashboardController@getActiveMerchantCount');
             $router->get('getNumberOfCompletedOrders', 'DashboardController@getNumberOfCompletedOrders');
+        });
+
+        //Weekly Payment report
+
+        $router->group(['prefix' => 'weeklypayment'], function() use ($router) {
+            $router->post('send', 'WeeklyPaymentController@create');
         });
 
 
