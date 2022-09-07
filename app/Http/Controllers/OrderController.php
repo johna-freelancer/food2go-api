@@ -169,6 +169,7 @@ class OrderController extends Controller
                     ->where(DB::raw("DATE_FORMAT(orders.created_at, '%Y-%m-%d')"), '>=', $request_data['date_from'])
                     ->where(DB::raw("DATE_FORMAT(orders.created_at, '%Y-%m-%d')"), '<=', $request_data['date_to'])
                     ->where('orders.status', $request_data['status'])
+                    ->orderBy('id', 'desc')
                     ->get()->toArray();
 
             foreach($raw_orders as $raw_order) {
