@@ -126,6 +126,7 @@ class WeeklyPaymentController extends Controller
                 }
             }
 
+            DB::commit();
             $this->response_message['status'] = 'success';
             $this->response_message['message'] = 'Payment report has been sent to all merchant.';
             $this->response_message['logs'] = $logs;
