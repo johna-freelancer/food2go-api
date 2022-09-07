@@ -32,11 +32,17 @@ class AuthController extends Controller
                     ->select('id', 'first_name', 'last_name', 'email', 'status', 'role')
                     ->first();
         if (!$token = Auth::setTTL(env('TOKEN_EXPIRY'))->attempt($credentials)) {
-            return response()->json(['message' => 'Your account is not registered in our system. Please contact the administrator.'], 401);
+            return response()->json([
+                'status' => 'failed',
+                'message' => 'Your account is not registered in our system. Please contact the administrator.'
+            ], 401);
         }
 
         if ($user->status != 'active') {
-            return response()->json(['message' => 'Your account is not active. Please contact the administrator.'], 401);
+            return response()->json([
+                'status' => 'failed',
+                'message' => 'Your account is not active. Please contact the administrator.'
+            ], 401);
         }
 
         return $this->respondWithToken($token, $user);
@@ -63,10 +69,6 @@ class AuthController extends Controller
         auth()->logout();
 
         return response()->json(['message' => 'Logout successfully!']);
-    }
-
-    public function test() {
-        dd('test');
     }
 
 }

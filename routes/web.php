@@ -1,5 +1,6 @@
 <?php
 use Illuminate\Support\Facades\Storage;
+use App\Events\NewOrderEvent;
 /** @var \Laravel\Lumen\Routing\Router $router */
 
 /*
@@ -14,12 +15,20 @@ use Illuminate\Support\Facades\Storage;
 */
 
 $router->get('/', function () use ($router) {
+    // event(new NewOrderEvent('testing side'));
     return $router->app->version();
 });
 
 $router->group(['prefix' => 'v1'], function () use ($router) {
     $router->post('/login', 'AuthController@login');
-    $router->post('/test', 'AuthController@test');
+    $router->post('/createBuyer', 'UserController@createBuyer');
+
+    $router->group(['prefix' => 'consumer'], function() use($router) {
+        $router->get('search', 'ConsumerController@searchStoreByProductOrName');
+        $router->get('products/{store_id}', 'ConsumerController@getAllAvailableProductByStoreId');
+        $router->get('track/{order_id}', 'OrderController@trackOrder');
+
+    });
     $router->group(['middleware' => 'auth'], function() use($router) {
         // Auth
         $router->group(['prefix' => 'auth'], function() use($router) {
@@ -31,9 +40,12 @@ $router->group(['prefix' => 'v1'], function () use ($router) {
             $router->get('getRole', 'UserController@getRole');
             $router->get('{id}', 'UserController@get');
             $router->get('', 'UserController@me');
+            $router->get('shop/{id}', 'UserController@getUserShop');
+            $router->post('getall', 'UserController@getall');
             $router->post('list', 'UserController@index');
             $router->post('', 'UserController@create');
-            $router->put('', 'UserController@update');
+            $router->post('update', 'UserController@update');
+            $router->post('upload/{id}', 'UserController@upload');
             $router->delete('{id}', 'UserController@delete');
         });
 
@@ -44,13 +56,37 @@ $router->group(['prefix' => 'v1'], function () use ($router) {
             $router->post('list', 'ProductController@index');
             $router->post('upload/{id}', 'ProductController@upload');
             $router->post('getProductsForInventory', 'ProductController@getProductsForInventory');
-            $router->put('', 'ProductController@update');
+            $router->post('update', 'ProductController@update');
             $router->delete('{id}', 'ProductController@delete');
         });
 
          // Inventory
          $router->group(['prefix' => 'inventory'], function() use($router) {
             $router->post('list', 'InventoryController@index');
+            $router->post('add/{product_id}', 'InventoryController@addProduct');
+            $router->post('modifyQuantity', 'InventoryController@changeQuantity');
+            $router->post('add', 'InventoryController@addProductWithQuantity');
+            $router->delete('remove/{product_id}', 'InventoryController@removeProduct');
         });
+
+        //orders
+        $router->group(['prefix' => 'orders'], function() use($router) {
+            $router->get('getOrder/{order_id}', 'OrderController@getOrderById');
+            $router->post('', 'OrderController@getOrdersByMerchantUserId');
+            $router->post('add', 'OrderController@addOrder');
+            $router->post('move', 'OrderController@changeStatus');
+            $router->post('upload/{id}', 'OrderController@upload');
+            $router->post('getOrders', 'OrderController@getOrders');
+        });
+
+         //dashboard
+        $router->group(['prefix' => 'dashboard'], function() use($router) {
+            $router->post('getTotalCollectable', 'DashboardController@getTotalCollectableAmount');
+            $router->post('getTotalCollected', 'DashboardController@getTotalCollectedAmount');
+            $router->get('getActiveMerchantCount', 'DashboardController@getActiveMerchantCount');
+            $router->get('getNumberOfCompletedOrders', 'DashboardController@getNumberOfCompletedOrders');
+        });
+
+
     });
 });

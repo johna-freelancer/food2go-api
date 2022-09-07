@@ -16,7 +16,7 @@ class Inventory extends Model
      * @var array
      */
     protected $fillable = [
-        'product_id', 'quantity'
+        'product_id', 'quantity', 'user_id'
     ];
 
     protected $table = 'inventories';
@@ -25,7 +25,7 @@ class Inventory extends Model
         return $this->belongsTo(User::class, 'user_id');
     }
 
-    public function product(){
+    public function products(){
         return $this->belongsTo(Product::class, 'product_id');
     }
 

@@ -63,6 +63,38 @@ class UserController extends Controller
         return response()->json($this->response_message, 500);
     }
 
+    public function getall(Request $request) {
+        try {
+            $request_data = $request->only([
+                'search'
+            ]);
+            $searchFilter = $request_data['search'];
+            $users = User::with(['user_informations', 'user_shop'])
+                ->where(function ($q) use ($searchFilter) {
+                    $q->where('id', 'LIKE', '%' . ($searchFilter) . '%')
+                        ->orWhere('first_name', 'LIKE', '%' . ($searchFilter) . '%')
+                        ->orWhere('last_name', 'LIKE', '%' . ($searchFilter) . '%')
+                        ->orWhere('email', 'LIKE', '%' . ($searchFilter) . '%')
+                        ->orWhere('role', 'LIKE', '%' . ($searchFilter) . '%')
+                        ->orWhere('status', 'LIKE', '%' . ($searchFilter) . '%');
+                    })
+                    ->orderBy('first_name', 'asc')
+                    ->get();
+
+
+            $this->response_message['status'] = 'success';
+            $this->response_message['message'] = 'Users retrieved.';
+            $this->response_message['result'] = $users;
+
+            return response()->json($this->response_message, 200);
+        } catch (\Exception $e) {
+            report($e);
+            $this->response_message['message'] = $e->getMessage();
+        }
+
+        return response()->json($this->response_message, 500);
+    }
+
     public function getRole() {
         try {
             $userRole = User::where('id',  Auth::id())->select('role')->first();
@@ -116,6 +148,14 @@ class UserController extends Controller
                     $user_informations_data['user_informations']['user_id'] = $user->id;
                     $user_informations = UserInformation::create($user_informations_data['user_informations']);
                     $user['user_informations'] = $user_informations;
+                } else {
+                    $user_information = [
+                        "user_id" => $user->id,
+                        "complete_address" => "",
+                        "primary_contact"=> "",
+                        "secondary_contact"=> ""
+                    ];
+                    $user['user_informations'] = UserInformation::create($user_information);
                 }
                 if (isset($request->user_shop)) {
                     $user_shop_data = $request->only([
@@ -123,6 +163,28 @@ class UserController extends Controller
                     ]);
                     $user_shop_data['user_shop']['user_id'] = $user->id;
                     $user_shop = UserShop::create($user_shop_data['user_shop']);
+                    $user['user_shop'] = $user_shop;
+                } else {
+                    $user_shop = [
+                        "user_id" => $user->id,
+                        "name" => "",
+                        "address" => "",
+                        "contact" => "",
+                        "open_hour" => "",
+                        "close_hour" => "",
+                        "status" => "close",
+                        "monday" => 1,
+                        "tuesday" => 1,
+                        "wednesday" => 1,
+                        "thursday" => 1,
+                        "friday" => 1,
+                        "saturday" => true,
+                        "sunday" => 0,
+                        "pm_gcash" => true,
+                        "pm_cod" => true,
+                        "is_active" => 0
+                    ];
+                    $user_shop = UserShop::create($user_shop);
                     $user['user_shop'] = $user_shop;
                 }
                 DB::commit();
@@ -149,6 +211,71 @@ class UserController extends Controller
 
         return response()->json($this->response_message, 500);
     }
+
+
+
+    public function createBuyer(Request $request) {
+        try {
+            $this->validate($request, [
+                'first_name' => 'required|max:100',
+                'last_name' => 'required|max:100',
+                'email' => 'required|email|max:200', 'unique',
+                'password' => 'required|max:60',
+            ]);
+            $user_data = $request->only([
+                'first_name',
+                'last_name',
+                'email',
+                'password',
+            ]);
+
+            $emailValidation = User::where('email', $user_data['email'])->first();
+            if (!empty($emailValidation)) {
+                $this->response_message['status'] = 'failed';
+                $this->response_message['message'] = 'Email already exist';
+
+                return response()->json($this->response_message, 409);
+            }
+            $user_data['status'] = 'active';
+            $user_data['role'] = 'buyer';
+            DB::beginTransaction();
+            $user = User::create($user_data);
+
+            if (!empty($user)) {
+
+                    $user_information = [
+                        "user_id" => $user->id,
+                        "complete_address" => $request->complete_address,
+                        "primary_contact"=> $request->primary_contact,
+                        "secondary_contact"=> ""
+                    ];
+                    $user['user_informations'] = UserInformation::create($user_information);
+
+                DB::commit();
+                $this->response_message['status'] = 'success';
+                $this->response_message['message'] = 'Registration successfully!';
+                $this->response_message['result'] = $user;
+
+                return response()->json($this->response_message, 200);
+            }
+
+        } catch (ValidationException $e) {
+            info($e);
+            $errors = $e->errors();
+            $this->response_message['message'] = reset($errors)[0];
+
+            return response()->json($this->response_message, 400);
+
+        } catch (\Exception $e) {
+            report($e);
+
+            $this->response_message['message'] = $e->getMessage();
+        }
+        DB::rollBack();
+
+        return response()->json($this->response_message, 500);
+    }
+
 
     public function update(Request $request) {
         try {
@@ -304,16 +431,25 @@ class UserController extends Controller
         return response()->json($this->response_message, 500);
     }
 
-    public function test(Request $request) {
+    public function upload(Request $request, $id) {
         try{
-            $file = $request->file('file');
             if($request->hasFile('file')){
                 $path = $request->file('file')->store(env('GOOGLE_DRIVE_FOLDER_ID'), 'google');
                 $url = Storage::disk('google')->url($path);
-                dd($url);
+                $user_shop = UserShop::where('id', $id)->first();
+                DB::beginTransaction();
+                if (!empty($user_shop)) {
+                    $user_shop->image_url = $url;
+                    $user_shop->save();
+                    DB::commit();
+                    $this->response_message['status'] = 'success';
+                    $this->response_message['message'] = 'File upload successfully.';
+
+                    return response()->json($this->response_message, 200);
+                }
             }else{
                 $this->response_message['status'] = 'failed';
-                $this->response_message['message'] = 'File Upload Failed.';
+                $this->response_message['message'] = 'File upload failed.';
             }
 
             return response()->json( $this->response_message);
@@ -323,6 +459,30 @@ class UserController extends Controller
             $this->response_message['message'] = $e->getMessage();
         }
         DB::rollBack();
+        return response()->json($this->response_message, 500);
+    }
+
+    public function getUserShop($id) {
+        try {
+            $userShop = UserShop::where('id', $id)->first();
+
+            if (empty($userShop)) {
+                $this->response_message['status'] = 'failed';
+                $this->response_message['message'] = 'User shop not found.';
+                $this->response_message['result'] = $userShop;
+
+                return response()->json($this->response_message, 404);
+            }
+            $this->response_message['status'] = 'success';
+            $this->response_message['message'] = 'User shop data retrieved.';
+            $this->response_message['result'] = $userShop;
+
+            return response()->json($this->response_message, 200);
+        } catch (\Exception $e) {
+            report($e);
+            $this->response_message['message'] = $e->getMessage();
+        }
+
         return response()->json($this->response_message, 500);
     }
 }
