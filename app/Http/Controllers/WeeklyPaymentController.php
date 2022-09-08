@@ -94,7 +94,7 @@ class WeeklyPaymentController extends Controller
             ->where(function ($q) use ($request_data) {
                 $q->whereBetween('date_to', [$request_data['from'], $request_data['to']])
                     ->orWhere('date_to', '>=', $request_data['from']);
-            });
+            })->first();
             if (!empty($weekly_payment_validation)) {
                 $this->response_message['status'] = 'failed';
                 $this->response_message['message'] = 'Payment report has for this date has been sent';
