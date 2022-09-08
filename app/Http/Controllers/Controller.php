@@ -45,4 +45,21 @@ class Controller extends BaseController
           $data['message'] = $msg;
           $pusher->trigger(env('CHANNEL_NAME'), env('EVENT_NAME'), $data);
     }
+
+    protected function sendEvent($channel_name, $event_name, $msg) {
+        $options = array(
+            'cluster' => 'ap1',
+            'useTLS' => true
+        );
+
+        $pusher = new Pusher(
+            env('PUSHER_APP_KEY'),
+            env('PUSHER_APP_SECRET'),
+            env('PUSHER_APP_ID'),
+            $options
+        );
+        $data['message'] = $msg;
+        $pusher->trigger($channel_name, $event_name, $data);
+
+    }
 }

@@ -88,9 +88,12 @@ $router->group(['prefix' => 'v1'], function () use ($router) {
         });
 
         //Weekly Payment report
-
         $router->group(['prefix' => 'weeklypayment'], function() use ($router) {
+            $router->post('', 'WeeklyPaymentController@index');
             $router->post('send', 'WeeklyPaymentController@create');
+            $router->post('approveByMerchant/{id}', 'WeeklyPaymentController@approveByMerchant');
+            $router->post('approveByAdmin/{id}', 'WeeklyPaymentController@approveByAdmin');
+            $router->get('{id}', 'WeeklyPaymentController@getPendingWeeklyPaymentByMerchantId');
         });
 
 
