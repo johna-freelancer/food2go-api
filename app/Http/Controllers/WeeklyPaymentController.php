@@ -44,14 +44,15 @@ class WeeklyPaymentController extends Controller
                 'merchant_id',
                 'date_from',
                 'date_to',
-                'status'
+                'status',
+                'search'
             ]);
             if (strtolower($request_data['status']) == 'all'){
                 $statusFilter = ['pending', 'settled', 'completed'];
             } else {
                 $statusFilter = [strtolower($request_data['status'])];
             }
-
+            $searchFilter = $request_data['search'];
             // for pagination
             $page = ($request_data['start'] / $request_data['length']) + 1;
             $weekly_payment = WeeklyPayment::
@@ -68,6 +69,9 @@ class WeeklyPaymentController extends Controller
                         ->orWhere('date_to', '>=', $request_data['date_from']);
                     }
 
+                })
+                ->where(function ($q) use ($searchFilter) {
+                    $q->where('merchant_name', 'LIKE', '%' . ($searchFilter) . '%');
                 })
                 ->whereIn('status', $statusFilter);
                 if ($request_data['merchant_id'] > -1) {
