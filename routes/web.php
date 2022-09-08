@@ -91,8 +91,8 @@ $router->group(['prefix' => 'v1'], function () use ($router) {
         $router->group(['prefix' => 'weeklypayment'], function() use ($router) {
             $router->post('', 'WeeklyPaymentController@index');
             $router->post('send', 'WeeklyPaymentController@create');
-            $router->post('approveByMerchant/{id}', 'WeeklyPaymentController@approveByMerchant');
-            $router->post('approveByAdmin/{id}', 'WeeklyPaymentController@approveByAdmin');
+            $router->get('approveByMerchant/{id}', 'WeeklyPaymentController@approveByMerchant');
+            $router->get('approveByAdmin/{id}', 'WeeklyPaymentController@approveByAdmin');
             $router->get('{id}', 'WeeklyPaymentController@getPendingWeeklyPaymentByMerchantId');
         });
 
