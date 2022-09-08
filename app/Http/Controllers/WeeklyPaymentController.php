@@ -41,7 +41,6 @@ class WeeklyPaymentController extends Controller
             $request_data = $request->only([
                 'length',
                 'start',
-                'search',
                 'merchant_id',
                 'date_from',
                 'date_to',
@@ -56,18 +55,31 @@ class WeeklyPaymentController extends Controller
             // for pagination
             $page = ($request_data['start'] / $request_data['length']) + 1;
             $weekly_payment = WeeklyPayment::
-                 where('merchant_id', $request_data['merchant_id'])
-                 ->where(function ($q) use ($request_data) {
-                    $q->whereBetween('date_from', [$request_data['date_from'], $request_data['date_to']])
+                 where(function ($q) use ($request_data) {
+                    if ($request_data['date_from'] != null || $request_data['date_to'] != null) {
+                        $q->whereBetween('date_from', [$request_data['date_from'], $request_data['date_to']])
                         ->orWhere('date_from', '<=', $request_data['date_to']);
+                    }
+
                 })
                 ->where(function ($q) use ($request_data) {
-                    $q->whereBetween('date_to', [$request_data['date_from'], $request_data['date_to']])
+                    if ($request_data['date_from'] != null || $request_data['date_to'] != null) {
+                        $q->whereBetween('date_to', [$request_data['date_from'], $request_data['date_to']])
                         ->orWhere('date_to', '>=', $request_data['date_from']);
+                    }
+
                 })
-                ->whereIn('status', $statusFilter)
-                ->orderBy('id', 'desc')
-                ->paginate($request_data['length'], ['*'], 'page', $page);
+                ->whereIn('status', $statusFilter);
+                if ($request_data['merchant_id'] > -1) {
+                    $weekly_payment->where('merchant_id', $request_data['merchant_id'])
+                    ->orderBy('id', 'desc')
+                    ->paginate($request_data['length'], ['*'], 'page', $page);
+                } else {
+                    $weekly_payment
+                    ->orderBy('id', 'desc')
+                    ->paginate($request_data['length'], ['*'], 'page', $page);
+                }
+
             $this->response_message['status'] = 'success';
             $this->response_message['message'] = 'Record retrieved.';
             $this->response_message['result'] = $weekly_payment;
@@ -97,7 +109,7 @@ class WeeklyPaymentController extends Controller
             })->first();
             if (!empty($weekly_payment_validation)) {
                 $this->response_message['status'] = 'failed';
-                $this->response_message['message'] = 'Payment report has for this date has been sent';
+                $this->response_message['message'] = 'Payment report for this date has been sent';
 
                 return response()->json($this->response_message, 409);
             }
