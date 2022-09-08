@@ -113,7 +113,7 @@ class WeeklyPaymentController extends Controller
             })->first();
             if (!empty($weekly_payment_validation)) {
                 $this->response_message['status'] = 'failed';
-                $this->response_message['message'] = 'Payment report for this date has been sent';
+                $this->response_message['message'] = 'Payment report for this date has already been sent';
 
                 return response()->json($this->response_message, 409);
             }
