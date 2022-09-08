@@ -71,18 +71,18 @@ class WeeklyPaymentController extends Controller
                 })
                 ->whereIn('status', $statusFilter);
                 if ($request_data['merchant_id'] > -1) {
-                    $weekly_payment->where('merchant_id', $request_data['merchant_id'])
+                    $res = $weekly_payment->where('merchant_id', $request_data['merchant_id'])
                     ->orderBy('id', 'desc')
                     ->paginate($request_data['length'], ['*'], 'page', $page);
                 } else {
-                    $weekly_payment
+                    $res = $weekly_payment
                     ->orderBy('id', 'desc')
                     ->paginate($request_data['length'], ['*'], 'page', $page);
                 }
 
             $this->response_message['status'] = 'success';
             $this->response_message['message'] = 'Record retrieved.';
-            $this->response_message['result'] = $weekly_payment;
+            $this->response_message['result'] = $res;
 
             return response()->json($this->response_message, 200);
         } catch (\Exception $e) {
