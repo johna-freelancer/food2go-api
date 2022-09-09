@@ -247,6 +247,15 @@ class WeeklyPaymentController extends Controller
                 $weekly_payment->admin_agreed_at = Carbon::now();
                 $weekly_payment->admin_id = Auth::id();
                 $weekly_payment->save();
+                $orders = Order::where('merchant_user_id', $weekly_payment->merchant_id)
+                ->where(function ($q) use ($weekly_payment) {
+                    $q->where(DB::raw("DATE_FORMAT(orders.changed_at_completed, '%Y-%m-%d')"), '>=', $weekly_payment->date_from)
+                        ->where(DB::raw("DATE_FORMAT(orders.changed_at_completed, '%Y-%m-%d')"), '<=', $weekly_payment->date_to);
+                })->where('collected_at', null)->get();
+                foreach($orders as $order) {
+                    $order->collected_at = Carbon::now();
+                    $order->save();
+                }
                 DB::commit();
                 $this->response_message['status'] = 'success';
                 $this->response_message['message'] = 'Payment report has been verified and complete.';
