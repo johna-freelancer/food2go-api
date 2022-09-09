@@ -187,7 +187,7 @@ class WeeklyPaymentController extends Controller
         try {
             $weekly_payment = WeeklyPayment::
                  where('merchant_id', $id)
-                ->where('status', 'pending')
+                ->whereIn('status', ['pending', 'settled'])
                 ->get();
             $this->response_message['status'] = 'success';
             $this->response_message['message'] = 'Weeky payment retrieved.';
