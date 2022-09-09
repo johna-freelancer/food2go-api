@@ -49,7 +49,7 @@ class DashboardController extends Controller
                 foreach($periods as $date) {
                     $date = $date->toDateString();
                     $order = Order::where('collected_at', null)
-                    ->where(DB::raw("DATE_FORMAT(orders.created_at, '%Y-%m-%d')"), $date)
+                    ->where(DB::raw("DATE_FORMAT(orders.changed_at_completed, '%Y-%m-%d')"), $date)
                     ->where('status', 'completed')
                     ->first();
                     if (!empty($order)) {
@@ -83,7 +83,7 @@ class DashboardController extends Controller
                 foreach($periods as $date) {
                     $date = $date->toDateString();
                     $order = Order::where('collected_at', null)
-                    ->where(DB::raw("DATE_FORMAT(orders.created_at, '%Y-%m-%d')"), $date)
+                    ->where(DB::raw("DATE_FORMAT(orders.changed_at_completed, '%Y-%m-%d')"), $date)
                     ->where('status', 'completed')
                     ->first();
                     if (!empty($order)) {
@@ -111,7 +111,7 @@ class DashboardController extends Controller
                 return response()->json($this->response_message, 200);
             } else { //today
                 $orders = Order::where('collected_at', null)
-                ->where(DB::raw("DATE_FORMAT(orders.created_at, '%Y-%m-%d')"), date('y-m-d'))
+                ->where(DB::raw("DATE_FORMAT(orders.changed_at_completed, '%Y-%m-%d')"), date('y-m-d'))
                 ->where('status', 'completed')
                 ->get();
                 $amount = 0;
