@@ -160,9 +160,11 @@ class DashboardController extends Controller
                     $order = Order::where('collected_at', '!=', null)
                     ->where(DB::raw("DATE_FORMAT(collected_at, '%Y-%m-%d')"), $date)
                     ->where('status', 'completed')
-                    ->first();
-                    if (!empty($order)) {
-                        $amount += $order->convenience_fee;
+                    ->get();
+                    if (!empty($orders)) {
+                        foreach($orders as $order) {
+                            $amount += $order->convenience_fee;
+                        }
                         array_push($data, $order->convenience_fee);
                         array_push($labels, $date);
                     } else {
@@ -191,12 +193,15 @@ class DashboardController extends Controller
                 $labels = [];
                 foreach($periods as $date) {
                     $date = $date->toDateString();
-                    $order = Order::where('collected_at', '!=', null)
+                    $orders = Order::where('collected_at', '!=', null)
                     ->where(DB::raw("DATE_FORMAT(collected_at, '%Y-%m-%d')"), $date)
                     ->where('status', 'completed')
-                    ->first();
-                    if (!empty($order)) {
-                        $amount += $order->convenience_fee;
+                    ->get();
+
+                    if (!empty($orders)) {
+                        foreach($orders as $order) {
+                            $amount += $order->convenience_fee;
+                        }
                         array_push($data, $order->convenience_fee);
                         array_push($labels, $date);
                     } else {
