@@ -11,7 +11,7 @@ use Laravel\Lumen\Routing\Controller as BaseController;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Validation\ValidationException;
-
+use Illuminate\Validation\Rule;
 class UserController extends Controller
 {
     protected $response_message = [
@@ -117,7 +117,9 @@ class UserController extends Controller
             $this->validate($request, [
                 'first_name' => 'required|max:100',
                 'last_name' => 'required|max:100',
-                'email' => 'required|email|max:200', 'unique:users,email,NULL,id,deleted_at,NULL',
+                'email' => 'required|' .
+                    Rule::unique('users', 'email')
+                        ->whereNull('deleted_at'),
                 'status' => 'required',
                 'password' => 'required|max:60',
                 'role' => 'max:20',
