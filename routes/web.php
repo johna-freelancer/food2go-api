@@ -22,7 +22,6 @@ $router->get('/', function () use ($router) {
 $router->group(['prefix' => 'v1'], function () use ($router) {
     $router->post('/login', 'AuthController@login');
     $router->post('/createBuyer', 'UserController@createBuyer');
-    $router->post('/salesReport', 'ReportController@salesReport');
     $router->group(['prefix' => 'consumer'], function() use($router) {
         $router->get('search', 'ConsumerController@searchStoreByProductOrName');
         $router->get('products/{store_id}', 'ConsumerController@getAllAvailableProductByStoreId');
@@ -94,6 +93,11 @@ $router->group(['prefix' => 'v1'], function () use ($router) {
             $router->post('approveByMerchant/{id}', 'WeeklyPaymentController@approveByMerchant');
             $router->get('approveByAdmin/{id}', 'WeeklyPaymentController@approveByAdmin');
             $router->get('{id}', 'WeeklyPaymentController@getPendingWeeklyPaymentByMerchantId');
+        });
+
+        //Report Controller
+        $router->group(['prefix' => 'reports'], function() use ($router) {
+            $router->post('/salesReport', 'ReportController@salesReport');
         });
 
 
