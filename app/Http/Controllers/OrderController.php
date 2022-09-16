@@ -234,9 +234,11 @@ class OrderController extends Controller
                 } else if ($status == 'preparing') {
                     $orderlists = OrderList::where('orders_id', $order_id)->get();
                     foreach($orderlists as $orderlist) {
-                        $p = Product::where('id', $orderlist->product_id);
-                        $p->quantity -= $orderlist->quantity;
-                        $p->save();
+                        $p = Product::where('id', $orderlist->product_id)->first();
+                        if (!empty($p)) {
+                            $p->quantity -= $orderlist->quantity;
+                            $p->save();
+                        }
                     }
                     $order->changed_at_preparing = Carbon::now();
                     $response_message['message'] = "Order #".$order_id.' is now preparing.';
