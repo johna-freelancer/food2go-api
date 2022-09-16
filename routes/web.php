@@ -100,6 +100,9 @@ $router->group(['prefix' => 'v1'], function () use ($router) {
             $router->post('/salesReport', 'ReportController@salesReport');
         });
 
+        $router->group(['prefix' => 'pusher'], function() use ($router) {
+            $router->post('trigger', 'PusherController@trigger');
+        });
 
     });
 });
