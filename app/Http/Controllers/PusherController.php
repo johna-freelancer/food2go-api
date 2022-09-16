@@ -15,7 +15,7 @@ use Illuminate\Support\Facades\Storage;
 use Illuminate\Validation\ValidationException;
 use Carbon\Carbon;
 
-class ReportController extends Controller
+class PusherController extends Controller
 {
 
     protected $response_message = [
