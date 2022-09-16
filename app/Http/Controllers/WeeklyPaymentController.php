@@ -163,7 +163,11 @@ class WeeklyPaymentController extends Controller
             $this->response_message['status'] = 'success';
             $this->response_message['message'] = 'Payment report has been sent to all merchant.';
             $this->response_message['logs'] = $logs;
-            $this->sendEvent(env('CHANNEL_NAME'), env('TRANSACTION_EVENT_NAME'), 'Weekly payment received. Please settle this within 2 days. Thank you!');
+            $data = [
+                'user_id' => $merchant->id,
+                'message' => 'Weekly payment received. Please settle this within 2 days. Thank you!'
+            ];
+            $this->sendEvent(env('CHANNEL_NAME'), env('TRANSACTION_EVENT_NAME'), $data);
             return response()->json($this->response_message, 200);
 
         } catch (ValidationException $e) {
