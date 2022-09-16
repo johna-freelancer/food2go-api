@@ -232,6 +232,12 @@ class OrderController extends Controller
                     $order->remarks = $remarks;
                     $response_message['message'] = "Order #".$order_id.' was rejected.';
                 } else if ($status == 'preparing') {
+                    $orderlists = OrderList::where('order_id', $order_id)->get();
+                    foreach($orderlists as $orderlist) {
+                        $p = Product::where('id', $orderlist->product_id);
+                        $p->quantity -= $orderlist->quantity;
+                        $p->save();
+                    }
                     $order->changed_at_preparing = Carbon::now();
                     $response_message['message'] = "Order #".$order_id.' is now preparing.';
                 } else if ($status == 'outfordelivery') {
