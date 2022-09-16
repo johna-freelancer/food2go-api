@@ -42,8 +42,7 @@ class Controller extends BaseController
             $options
           );
 
-          $data['message'] = $msg;
-          $pusher->trigger(env('CHANNEL_NAME'), env('EVENT_NAME'), $data);
+          $pusher->trigger(env('CHANNEL_NAME'), env('EVENT_NAME'), $msg);
     }
 
     protected function sendEvent($channel_name, $event_name, $msg) {
