@@ -42,7 +42,7 @@ class DashboardController extends Controller
             ]);
 
             if ($request_data['range'] == '30days') {
-                $periods = CarbonPeriod::create(Carbon::now()->subDays(30)->toDateString(), Carbon::now()->subDays(1)->toDateString());
+                $periods = CarbonPeriod::create(Carbon::now()->subDays(29)->toDateString(), Carbon::now()->toDateString());
                 $amount = 0;
                 $data = [];
                 $labels = [];
@@ -78,7 +78,7 @@ class DashboardController extends Controller
 
                 return response()->json($this->response_message, 200);
             } else if ($request_data['range'] == '7days') {
-                $periods = CarbonPeriod::create(Carbon::now()->subDays(7)->toDateString(), Carbon::now()->subDays(1)->toDateString());
+                $periods = CarbonPeriod::create(Carbon::now()->subDays(6)->toDateString(), Carbon::now()->toDateString());
                 $amount = 0;
                 $data = [];
                 $labels = [];
@@ -155,13 +155,13 @@ class DashboardController extends Controller
             ]);
 
             if ($request_data['range'] == '30days') {
-                $periods = CarbonPeriod::create(Carbon::now()->subDays(30)->toDateString(), Carbon::now()->subDays(1)->toDateString());
+                $periods = CarbonPeriod::create(Carbon::now()->subDays(29)->toDateString(), Carbon::now()->toDateString());
                 $amount = 0;
                 $data = [];
                 $labels = [];
                 foreach($periods as $date) {
                     $date = $date->toDateString();
-                    $order = Order::where('collected_at', '!=', null)
+                    $orders = Order::where('collected_at', '!=', null)
                     ->where(DB::raw("DATE_FORMAT(collected_at, '%Y-%m-%d')"), $date)
                     ->where('status', 'completed')
                     ->get();
@@ -191,7 +191,7 @@ class DashboardController extends Controller
 
                 return response()->json($this->response_message, 200);
             } else if ($request_data['range'] == '7days') {
-                $periods = CarbonPeriod::create(Carbon::now()->subDays(7)->toDateString(), Carbon::now()->subDays(1)->toDateString());
+                $periods = CarbonPeriod::create(Carbon::now()->subDays(6)->toDateString(), Carbon::now()->toDateString());
                 $amount = 0;
                 $data = [];
                 $labels = [];
