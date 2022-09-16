@@ -98,6 +98,7 @@ $router->group(['prefix' => 'v1'], function () use ($router) {
         //Report Controller
         $router->group(['prefix' => 'reports'], function() use ($router) {
             $router->post('/salesReport', 'ReportController@salesReport');
+            $router->post('/eodReport', 'ReportController@eodReport');
         });
 
         $router->group(['prefix' => 'pusher'], function() use ($router) {
