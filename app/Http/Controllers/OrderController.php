@@ -8,6 +8,7 @@ use App\Models\Order;
 use App\Models\OrderList;
 use App\Models\AdminSetting;
 use App\Models\UserShop;
+use App\Models\Inventory;
 use Illuminate\Support\Facades\Auth;
 use Laravel\Lumen\Routing\Controller as BaseController;
 use Illuminate\Support\Facades\DB;
@@ -234,7 +235,7 @@ class OrderController extends Controller
                 } else if ($status == 'preparing') {
                     $orderlists = OrderList::where('orders_id', $order_id)->get();
                     foreach($orderlists as $orderlist) {
-                        $p = Product::where('id', $orderlist->product_id)->first();
+                        $p = Inventory::where('product_id', $orderlist->product_id)->first();
                         if (!empty($p)) {
                             $p->quantity -= $orderlist->quantity;
                             $p->save();
