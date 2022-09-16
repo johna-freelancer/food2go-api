@@ -57,8 +57,7 @@ class Controller extends BaseController
             env('PUSHER_APP_ID'),
             $options
         );
-        $data['message'] = $msg;
-        $pusher->trigger($channel_name, $event_name, $data);
+        $pusher->trigger($channel_name, $event_name, $msg);
 
     }
 }
