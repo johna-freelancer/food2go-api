@@ -119,6 +119,7 @@ class WeeklyPaymentController extends Controller
             }
             $merchants = User::select('id', 'full_name')->where('role', 'client')->get();
             $data = [];
+            $user_ids = [];
             foreach ($merchants as $merchant) {
                 $amount = 0;
                 $orders = Order::where('merchant_user_id', $merchant->id)
@@ -139,6 +140,7 @@ class WeeklyPaymentController extends Controller
                     'merchant_name' => $merchant->full_name,
                     'merchant_id' => $merchant->id
                 ];
+                array_push($user_ids, $merchant->id);
             }
 
 
@@ -164,7 +166,7 @@ class WeeklyPaymentController extends Controller
             $this->response_message['message'] = 'Payment report has been sent to all merchant.';
             $this->response_message['logs'] = $logs;
             $data = [
-                'user_id' => $merchant->id,
+                'user_ids' => $user_ids,
                 'message' => 'Weekly payment received. Please settle this within 2 days. Thank you!'
             ];
             $this->sendEvent(env('CHANNEL_NAME'), env('TRANSACTION_EVENT_NAME'), $data);
