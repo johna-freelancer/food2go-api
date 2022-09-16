@@ -128,7 +128,7 @@ class OrderController extends Controller
                     'order_id' => $order->id,
                     'user_id' => $order->merchant_user_id,
                     'message' => 'New order received with order number ' . $order->id
-                ]
+                ];
                 $this->sendNewOrderEvent($msg);
                 return response()->json($this->response_message, 200);
             }
