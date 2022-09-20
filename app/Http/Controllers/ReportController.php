@@ -94,7 +94,7 @@ class ReportController extends Controller
                 $total_convenience_fee = $orders->sum('convenience_fee');
             }
             $this->response_message['status']='success';
-            $this->response_message['message']='EOD report for the date of ' . $request_data['date_from'] . ' to ' . $request_data['date_to'];
+            $this->response_message['message']='EOD report for the date of ' . $request_data['date'];
             $this->response_message['result'] = [
                 'total_orders' => $total_orders,
                 'total_sales' => $total_sales,
