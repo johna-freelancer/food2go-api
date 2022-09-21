@@ -50,6 +50,17 @@ class ReportController extends Controller
                     ->where(DB::raw("DATE_FORMAT(orders.changed_at_completed, '%Y-%m-%d')"), '>=', $request_data['date_from'])
                     ->where(DB::raw("DATE_FORMAT(orders.changed_at_completed, '%Y-%m-%d')"), '<=', $request_data['date_to'])
                     ->where('status', 'completed');
+            $items = [];
+            foreach($orders->get() as $order) {
+                $item_list = OrderList::where('orders_id', $order->id)->get();
+                foreach($item_list as $the) {
+                    if (isset($items[$the->product_name])){
+                        $items[$the->product_name] += $the->quantity;
+                    } else {
+                        $items[$the->product_name] = $the->quantity;
+                    }
+                }
+            }
             if(count($orders->get()) > 0) {
                 $total_orders = count($orders->get());
                 $total_sales = $orders->sum('total');
@@ -62,7 +73,8 @@ class ReportController extends Controller
                 'total_orders' => $total_orders,
                 'total_sales' => $total_sales,
                 'total_delivery_charge' => $total_delivery_charge,
-                'total_convenience_fee' => $total_convenience_fee
+                'total_convenience_fee' => $total_convenience_fee,
+                'items_sold' => $items
             ];
             return response()->json($this->response_message, 200);
         } catch (\Exception $e) {
