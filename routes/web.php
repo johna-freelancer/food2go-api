@@ -24,7 +24,7 @@ $router->group(['prefix' => 'v1'], function () use ($router) {
     $router->post('/createBuyer', 'UserController@createBuyer');
     $router->group(['prefix' => 'consumer'], function() use($router) {
         $router->get('search', 'ConsumerController@searchStoreByProductOrName');
-        $router->get('products/{store_id}', 'ConsumerController@getAllAvailableProductByStoreId');
+        $router->get('products/{store_id}/{keyword}', 'ConsumerController@getAllAvailableProductByStoreId');
         $router->get('track/{order_id}', 'OrderController@trackOrder');
 
     });

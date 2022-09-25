@@ -61,7 +61,7 @@ class ConsumerController extends Controller
         return response()->json($this->response_message, 500);
     }
 
-    public function getAllAvailableProductByStoreId($store_id) {
+    public function getAllAvailableProductByStoreId($store_id, $keyword) {
         try {
 
             $userShop = UserShop::where('id', $store_id)->first();
@@ -72,8 +72,10 @@ class ConsumerController extends Controller
                 return response()->json($this->response_message, 404);
             }
             $inventory = Inventory::
-            leftJoin('products as product', function ($join) {
-                $join->on('product.id', '=', 'inventories.product_id');
+            leftJoin('products as product', function ($join) use ($keyword){
+                $join->on('product.id', '=', 'inventories.product_id')
+                ->where(DB::raw("TRIM(REGEXP_REPLACE(products.name, '[^[:alnum:]]+', ''))"), 'LIKE', '%' . ($this->cleanString($keyword)) . '%')
+                ->orWhere('products.tags', 'LIKE', '%' . ($keyword) . '%');;
             })
             ->where('inventories.user_id', $userShop->user_id)->get()->toArray();
 
