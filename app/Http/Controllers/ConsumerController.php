@@ -63,9 +63,9 @@ class ConsumerController extends Controller
 
     public function getAllAvailableProductByStoreId(Request $request) {
         try {
-            $keyword = $request->only(['keyword']);
-            $store_id = $request->only(['store_id']);
-            dd($keyword);
+            $request_data = $request->only(['keyword', 'store_id']);
+            $store_id = $request_data['store_id'];
+            $keyword= $request_data['keyword'];
             $userShop = UserShop::where('id', $store_id)->first();
             if (empty($userShop)) {
                 $this->response_message['status'] = 'failed';
