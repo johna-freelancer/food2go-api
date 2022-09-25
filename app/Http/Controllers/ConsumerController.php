@@ -61,9 +61,10 @@ class ConsumerController extends Controller
         return response()->json($this->response_message, 500);
     }
 
-    public function getAllAvailableProductByStoreId($store_id, $keyword) {
+    public function getAllAvailableProductByStoreId(Request $request) {
         try {
-
+            $keyword = $request->getData('keyword');
+            $store_id = $request->getData('store_id');
             $userShop = UserShop::where('id', $store_id)->first();
             if (empty($userShop)) {
                 $this->response_message['status'] = 'failed';
