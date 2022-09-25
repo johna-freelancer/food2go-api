@@ -75,8 +75,8 @@ class ConsumerController extends Controller
             $inventory = Inventory::
             leftJoin('products as product', function ($join) use ($keyword){
                 $join->on('product.id', '=', 'inventories.product_id')
-                ->where(DB::raw("TRIM(REGEXP_REPLACE(product.name, '[^[:alnum:]]+', ''))"), 'LIKE', '%' . ($this->cleanString($keyword)) . '%')
-                ->orWhere('product.tags', 'LIKE', '%' . ($keyword) . '%');;
+                ->where('product.name', 'LIKE', '%' . ($this->cleanString($keyword)) . '%')
+                ->orWhere('product.tags', 'LIKE', '%' . ($keyword) . '%');
             })
             ->where('inventories.user_id', $userShop->user_id)->get()->toArray();
 
