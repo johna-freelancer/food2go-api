@@ -74,7 +74,7 @@ class ConsumerController extends Controller
                 return response()->json($this->response_message, 404);
             }
             $inventory = Inventory::
-            leftJoin('products as product', function ($join) use ($keyword){
+            join('products as product', function ($join) use ($keyword){
                 $join->on('product.id', '=', 'inventories.product_id')
                 ->where(function ($q) use ($keyword) {
                     $q->where(DB::raw("TRIM(REGEXP_REPLACE(product.name, '[^[:alnum:]]+', ''))"), 'LIKE', '%' . ($this->cleanString($keyword)) . '%')
