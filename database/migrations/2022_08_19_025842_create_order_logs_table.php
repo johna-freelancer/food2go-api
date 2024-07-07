@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateUserInformationsTable extends Migration
+class CreateOrderLogsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,13 +13,12 @@ class CreateUserInformationsTable extends Migration
      */
     public function up()
     {
-        Schema::create('user_informations', function (Blueprint $table) {
+        Schema::create('order_logs', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('user_id');
-            $table->string('primary_contact');
-            $table->string('secondary_contact')->nullable();
-
-            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
+            $table->unsignedBigInteger('order_id');
+            $table->string('status');
+            $table->text('remarks')->nullable();
+            $table->foreign('order_id')->references('id')->on('orders')->onDelete('cascade');
 
             $table->softDeletes();
             $table->timestamps();
@@ -33,6 +32,6 @@ class CreateUserInformationsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('user_informations');
+        Schema::dropIfExists('order_logs');
     }
 }

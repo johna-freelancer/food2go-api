@@ -15,14 +15,22 @@ class CreateProductsTable extends Migration
     {
         Schema::create('products', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('user_id');
-            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
+            $table->unsignedBigInteger('shop_id');
+            $table->unsignedBigInteger('shop_category_id')->nullable();
             $table->string('name');
-            $table->string('description')->nullable();
-            $table->string('image_url', 1000)->nullable();
-            $table->decimal('price');
-            $table->string('tags', 255)->nullable();
-            $table->string('status')->default('active');
+            $table->text('description')->nullable();
+            $table->string('image_url')->nullable();
+            $table->integer('quantity_available');
+            $table->integer('minimum_stock_threshold')->default(0);
+            $table->decimal('price', 8, 2)->default(0);
+            $table->decimal('srp', 8, 2)->default(0);
+            $table->unsignedBigInteger('oum_id')->nullable();
+
+
+            $table->foreign('shop_id')->references('id')->on('shops')->onDelete('cascade');
+            $table->foreign('shop_category_id')->references('id')->on('shop_categories')->onDelete('set null');
+            $table->foreign('oum_id')->references('id')->on('uom')->onDelete('set null');
+            $table->softDeletes();
             $table->timestamps();
         });
     }

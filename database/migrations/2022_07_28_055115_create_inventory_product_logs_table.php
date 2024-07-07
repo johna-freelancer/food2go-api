@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateInventoriesTable extends Migration
+class CreateInventoryProductLogsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,13 +13,18 @@ class CreateInventoriesTable extends Migration
      */
     public function up()
     {
-        Schema::create('inventories', function (Blueprint $table) {
+        Schema::create('inventory_product_logs', function (Blueprint $table) {
             $table->id();
+            $table->unsignedBigInteger('inventory_log_id');
             $table->unsignedBigInteger('product_id');
+            $table->integer('initial_quantity');
+            $table->integer('closing quantity');
+            $table->boolean('is_available')->default(false);
+
+            $table->foreign('inventory_log_id')->references('id')->on('inventory_logs')->onDelete('cascade');
             $table->foreign('product_id')->references('id')->on('products')->onDelete('cascade');
-            $table->unsignedBigInteger('user_id');
-            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
-            $table->integer('quantity')->default('0');
+            
+            $table->softDeletes();
             $table->timestamps();
         });
     }
@@ -31,6 +36,6 @@ class CreateInventoriesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('inventories');
+        Schema::dropIfExists('inventory_product_logs');
     }
 }
