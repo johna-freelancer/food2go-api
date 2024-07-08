@@ -14,17 +14,19 @@ class UserInformation extends Model
     /**
      * The attributes that are mass assignable.
      *
-     * @var array
+     * @var array<int, string>
      */
     protected $fillable = [
-        'user_id', 'primary_contact', 'secondary_contact', 'complete_address'
+        'user_id',
+        'primary_contact',
+        'secondary_contact',
     ];
-    protected $table = 'user_informations';
-    public function users(){
-        return $this->belongsTo(User::class, 'user_id');
-    }
 
-    protected $hidden = [
-        'pivot'
-    ];
+    /**
+     * Get the user that owns the user information.
+     */
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
 }

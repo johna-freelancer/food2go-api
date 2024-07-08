@@ -7,6 +7,9 @@ use Illuminate\Contracts\Auth\Access\Authorizable as AuthorizableContract;
 use Illuminate\Contracts\Auth\Authenticatable as AuthenticatableContract;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
+use Illuminate\Database\Eloquent\Relations\MorphOneOrMany;
 use Laravel\Lumen\Auth\Authorizable;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Facades\Hash;
@@ -16,37 +19,78 @@ class User extends Model implements AuthenticatableContract, AuthorizableContrac
 {
     use Authenticatable, Authorizable, HasFactory, SoftDeletes;
 
-    public function userInformations(){
-        return $this->hasOne(UserInformation::class);
-    }
-    public function userShop(){
-        return $this->hasOne(UserShop::class);
-    }
-
-    public function user_informations(){
-        return $this->hasOne(UserInformation::class);
-    }
-    public function user_shop(){
-        return $this->hasOne(UserShop::class);
-    }
-    /**
-     * The attributes that are mass assignable.
-     *
-     * @var array
-     */
     protected $fillable = [
-        'first_name', 'last_name', 'email', 'password', 'status', 'role'
+        'first_name',
+        'last_name',
+        'email',
+        'phone_number',
+        'password',
+        'status',
+        'phone_number_verified',
+        'phone_number_code_verification',
+        'email_verified',
+        'email_code_verification',
+        'is_merchant',
+        'role',
     ];
 
     /**
-     * The attributes excluded from the model's JSON form.
+     * The attributes that should be hidden for arrays.
      *
-     * @var array
+     * @var array<int, string>
      */
     protected $hidden = [
         'password',
-        'pivot'
+        'remember_token',
+        'phone_number_code_verification',
+        'email_code_verification',
     ];
+
+    /**
+     * The attributes that should be cast to native types.
+     *
+     * @var array<string, string>
+     */
+    protected $casts = [
+        'email_verified_at' => 'datetime',
+        'phone_number_verified' => 'boolean',
+        'email_verified' => 'boolean',
+        'is_merchant' => 'boolean',
+    ];
+
+    /**
+     * The attributes that should be appended to the model's array form.
+     *
+     * @var array<string>
+     */
+    protected $appends = ['full_name'];
+
+    /**
+     * Get the user information.
+     *
+     * @return UserInformation
+     */
+    public function information(): HasOne {
+        return $this->hasOne(UserInformation::class);
+    }
+
+    /**
+     * Get the user shops.
+     *
+     * @return Shop
+     */
+    public function shop(): HasMany {
+        return $this->HasMany(Shop::class);
+    }
+
+    /**
+     * Get the user addresses.
+     *
+     * @return Address
+     */
+    public function addresses() : MorphOneOrMany {
+        return $this->morphMany(Address::class, 'addressable');
+    }
 
     /*
      * Hash the password plain-text to Argon2i
