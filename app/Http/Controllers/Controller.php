@@ -14,10 +14,12 @@ class Controller extends BaseController
 		return response()->json([
             'status' => 'success',
             'data' => [
-                'token' => $token,
-                'token_type' => 'bearer',
-                'expires_in' => Auth::factory()->getTTL() * 720,
-                'profile' => $user
+                'bearer' => [
+                    'token' => $token,
+                    'token_type' => 'bearer',
+                    'expires_in' => Auth::factory()->getTTL() * 720
+                ],
+                'user' => $user
             ],
             'message' => 'Successfully logged in!'
 		], 200);

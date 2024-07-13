@@ -27,21 +27,28 @@ class AuthController extends Controller
             ]);
 
             if ($validator->fails()) {
-                return response()->json($validator->errors(), 422);
+                return response()->json(['status' => 'failed', 'error' => $validator->errors()], 422);
             }
 
             $credentials = $request->only('email', 'password');
 
-            $user = User::where($credentials['email'])
-                    ->with(['information'])
+            $user = User::where('email', $credentials['email'])
+                    ->with('information', 'addresses', 'shops')
                     ->select('id', 'first_name', 'last_name', 'email', 'status', 'role')
                     ->first();
             
+            if (!$user) {
+                return response()->json([
+                    'status' => 'failed',
+                    'message' => 'Your account is not registered in our system. Please contact the administrator.'
+                ], 400);
+            }
+
             if ($user->status != 'active') {
                 return response()->json([
                     'status' => 'failed',
                     'message' => 'Your account is not active. Please contact the administrator.'
-                ], 401);
+                ], 400);
             }
 
             $token = Auth::setTTL(env('TOKEN_EXPIRY'))->attempt($credentials);
@@ -50,13 +57,13 @@ class AuthController extends Controller
                 return response()->json([
                     'status' => 'failed',
                     'message' => 'Your account is not registered in our system. Please contact the administrator.'
-                ], 401);
+                ], 400);
             }
 
             return $this->respondWithToken($token, $user);
 
         } catch (Throwable $e) {
-            return response()->json(['error' => 'Login failed: ' . $e->getMessage()], 500);
+            return response()->json(['status' => 'failed', 'error' => 'Login failed: ' . $e->getMessage()], 500);
         }
     }
 
@@ -68,12 +75,20 @@ class AuthController extends Controller
     public function me()
     {
         if (!Auth::user()) {
-            return response()->json(['message' => 'User is not found.'], 401);
+            return response()->json([
+                'status' => 'failed',
+                'data' => null,
+                'message' => 'User is not found.'
+            ], 401);
         }
 
-        $me = Auth::user()->with(['information'])->first();
+        $me = Auth::user()->with(['information', 'addresses', 'shops'])->first();
 
-        return response()->json($me, 200);
+        return response()->json([
+            'status' => 'success',
+            'data' => $me,
+            'message' => 'User loaded.'
+        ], 200);
     }
 
     /**
@@ -84,7 +99,11 @@ class AuthController extends Controller
     public function logout()
     {
         Auth::logout();
-        return response()->json(['message' => 'Logout successfully!'], 200);
+        return response()->json([
+            'status' => 'success',
+            'data' => null,
+            'message' => 'Logout successfully!'
+        ], 200);
     }
 
 }

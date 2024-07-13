@@ -11,6 +11,8 @@ class UserInformation extends Model
 {
     use HasFactory, SoftDeletes;
 
+    protected $table = 'user_informations';
+
     /**
      * The attributes that are mass assignable.
      *

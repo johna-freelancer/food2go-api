@@ -65,6 +65,12 @@ class User extends Model implements AuthenticatableContract, AuthorizableContrac
      */
     protected $appends = ['full_name'];
 
+    // Accessor for full_name attribute
+    public function getFullNameAttribute()
+    {
+        return $this->first_name . ' ' . $this->last_name;
+    }
+
     /**
      * Get the user information.
      *

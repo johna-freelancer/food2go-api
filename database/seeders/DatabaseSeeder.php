@@ -24,5 +24,14 @@ class DatabaseSeeder extends Seeder
             'status' => 'active',
             'role' => 'admin'
         ])->create();
+
+        \App\Models\User::factory()->state([
+            'first_name' => 'Gabriel',
+            'last_name' => 'Castro',
+            'email' => 'gabminer05@gmail.com',
+            'password' => 'Maler11!',
+            'status' => 'active',
+            'role' => 'admin'
+        ])->create();
     }
 }

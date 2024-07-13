@@ -78,7 +78,6 @@ class UserController extends Controller
         }
     }
 
-
     /**
      * Get a single user by ID.
      *
