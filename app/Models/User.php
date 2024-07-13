@@ -79,7 +79,7 @@ class User extends Model implements AuthenticatableContract, AuthorizableContrac
      *
      * @return Shop
      */
-    public function shop(): HasMany {
+    public function shops(): HasMany {
         return $this->HasMany(Shop::class);
     }
 
