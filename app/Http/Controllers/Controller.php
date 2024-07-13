@@ -20,7 +20,6 @@ class Controller extends BaseController
                 'profile' => $user
             ],
             'message' => 'Successfully logged in!'
-
 		], 200);
 	}
 

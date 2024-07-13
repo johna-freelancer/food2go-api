@@ -5,9 +5,11 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Validator;
 use Laravel\Lumen\Routing\Controller as BaseController;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
+use Throwable;
 
 class AuthController extends Controller
 {
@@ -18,35 +20,44 @@ class AuthController extends Controller
      */
     public function login(Request $request)
     {
-        //validate incoming request
-        $this->validate($request, [
-            'email' => 'required|email',
-            'password' => 'required|string',
-        ]);
+        try {
+            $validator = Validator::make($request->all(), [
+                'email' => 'required|email',
+                'password' => 'required|string',
+            ]);
 
-        $credentials = $request->only(['email', 'password']);
-        $email = $request->only(['email']);
+            if ($validator->fails()) {
+                return response()->json($validator->errors(), 422);
+            }
 
-        $user = User::where($email)
-                    ->with(['userInformations'])
+            $credentials = $request->only('email', 'password');
+
+            $user = User::where($credentials['email'])
+                    ->with(['information'])
                     ->select('id', 'first_name', 'last_name', 'email', 'status', 'role')
                     ->first();
-        if (!$token = Auth::setTTL(env('TOKEN_EXPIRY'))->attempt($credentials)) {
-            return response()->json([
-                'status' => 'failed',
-                'message' => 'Your account is not registered in our system. Please contact the administrator.'
-            ], 401);
+            
+            if ($user->status != 'active') {
+                return response()->json([
+                    'status' => 'failed',
+                    'message' => 'Your account is not active. Please contact the administrator.'
+                ], 401);
+            }
+
+            $token = Auth::setTTL(env('TOKEN_EXPIRY'))->attempt($credentials);
+
+            if (!$token) {
+                return response()->json([
+                    'status' => 'failed',
+                    'message' => 'Your account is not registered in our system. Please contact the administrator.'
+                ], 401);
+            }
+
+            return $this->respondWithToken($token, $user);
+
+        } catch (Throwable $e) {
+            return response()->json(['error' => 'Login failed: ' . $e->getMessage()], 500);
         }
-
-        if ($user->status != 'active') {
-            return response()->json([
-                'status' => 'failed',
-                'message' => 'Your account is not active. Please contact the administrator.'
-            ], 401);
-        }
-
-        return $this->respondWithToken($token, $user);
-
     }
 
     /**
@@ -56,7 +67,13 @@ class AuthController extends Controller
      */
     public function me()
     {
-        return response()->json(auth()->user());
+        if (!Auth::user()) {
+            return response()->json(['message' => 'User is not found.'], 401);
+        }
+
+        $me = Auth::user()->with(['information'])->first();
+
+        return response()->json($me, 200);
     }
 
     /**
@@ -66,9 +83,8 @@ class AuthController extends Controller
      */
     public function logout()
     {
-        auth()->logout();
-
-        return response()->json(['message' => 'Logout successfully!']);
+        Auth::logout();
+        return response()->json(['message' => 'Logout successfully!'], 200);
     }
 
 }
