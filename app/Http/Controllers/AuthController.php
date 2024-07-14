@@ -82,7 +82,7 @@ class AuthController extends Controller
             ], 401);
         }
 
-        $me = Auth::user()->with(['information', 'addresses', 'shops'])->first();
+        $me = User::with('information', 'addresses', 'shops')->find(Auth::id());
 
         return response()->json([
             'status' => 'success',

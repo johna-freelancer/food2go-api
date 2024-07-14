@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Address;
+use App\Resources\PaginateCollection;
 use Illuminate\Http\Request;
 use App\Models\User;
 use App\Models\UserInformation;
@@ -68,13 +69,13 @@ class UserController extends Controller
             }
 
             // Execute the query with pagination
-            $users = $query->paginate($limit);
+            $users = new PaginateCollection($query->paginate($limit), 'Fetched all users.');
 
             return response()->json($users, 200);
 
         } catch (Throwable $e) {
             report($e);
-            return response()->json(['error' => 'Failed to fetch users. ' . $e->getMessage()], 500);
+            return response()->json(['error' => 'Failed to fetch users. ' . $e->getMessage()], 200);
         }
     }
 

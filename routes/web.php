@@ -34,13 +34,10 @@ $router->group(['prefix' => 'v1'], function () use ($router) {
             $router->get('me', 'AuthController@me');
             $router->get('logout', 'AuthController@logout');
         });
+
         // User
         $router->group(['prefix' => 'user'], function() use($router) {
-            $router->get('getRole', 'UserController@getRole');
             $router->get('{id}', 'UserController@get');
-            $router->get('', 'UserController@me');
-            $router->get('shop/{id}', 'UserController@getUserShop');
-            $router->post('getall', 'UserController@getall');
             $router->post('list', 'UserController@index');
             $router->post('', 'UserController@create');
             $router->post('update', 'UserController@update');
